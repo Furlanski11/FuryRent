@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FuryRent.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class FuryRentDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public FuryRentDbContext(DbContextOptions<FuryRentDbContext> options)
             : base(options)
         {
         }

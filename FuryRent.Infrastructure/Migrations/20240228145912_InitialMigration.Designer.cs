@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FuryRent.Infrastructure.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(FuryRentDbContext))]
     [Migration("20240228145912_InitialMigration")]
     partial class InitialMigration
     {
