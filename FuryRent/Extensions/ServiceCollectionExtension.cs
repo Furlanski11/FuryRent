@@ -1,7 +1,7 @@
-﻿using FuryRent.Data;
+﻿using FuryRent.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
+
 
 namespace Microsoft.Extensions.DependencyInjection
 {
