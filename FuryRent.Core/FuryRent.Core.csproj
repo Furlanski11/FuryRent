@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FuryRent.Infrastructure\FuryRent.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
