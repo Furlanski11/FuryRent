@@ -1,0 +1,20 @@
+﻿<ul class="navbar-nav flex-grow-1 text-center">
+    <li class="nav-item">
+        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Cars</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">About</a>
+    </li>
+    @if (this.User?.Identity?.IsAuthenticated ?? false)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Rent</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Pricing</a>
+        </li>
+    }
+</ul>
