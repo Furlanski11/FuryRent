@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using FuryRent.Infrastructure.Data.Configuration;
+using FuryRent.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FuryRent.Infrastructure.Data
@@ -9,5 +11,28 @@ namespace FuryRent.Infrastructure.Data
             : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new CarConfiguration());
+            builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new PaymentTypesConfiguration());
+
+            base.OnModelCreating(builder);
+        }
+
+        public DbSet<Rent> Rents { get; set; } = null!;
+
+        public DbSet<Car> Cars { get; set; } = null!;
+
+        public DbSet<Category> Categories { get; set; } = null!;
+
+        public DbSet<Payment> Payments { get; set; } = null!;
+
+        public DbSet<PaymentTypes> PaymentTypes { get; set; } = null!;
+
+        public DbSet<VipUser> VipUsers { get; set; } = null!;
+
     }
 }
