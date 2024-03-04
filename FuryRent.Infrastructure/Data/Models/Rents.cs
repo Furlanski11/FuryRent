@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FuryRent.Infrastructure.Data.Models
@@ -12,7 +13,7 @@ namespace FuryRent.Infrastructure.Data.Models
         public string RenterId { get; set; } = string.Empty;
 
         [ForeignKey(nameof(RenterId))]
-        public ApplicationUser? Renter { get; set; }
+        public IdentityUser? Renter { get; set; }
 
         [Required]
         public int CarId { get; set; }

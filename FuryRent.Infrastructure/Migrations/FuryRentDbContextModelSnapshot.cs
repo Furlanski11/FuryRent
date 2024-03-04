@@ -4,7 +4,6 @@ using FuryRent.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,10 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FuryRent.Infrastructure.Migrations
 {
     [DbContext(typeof(FuryRentDbContext))]
-    [Migration("20240302225054_SeedDatabase")]
-    partial class SeedDatabase
+    partial class FuryRentDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,108 +21,6 @@ namespace FuryRent.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.ApplicationUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<bool>("IsVip")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ApplicationUser");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "77f7c5b1-65d7-41b8-b7fa-abe4abe1e97c",
-                            Email = "userOne@mail.com",
-                            EmailConfirmed = false,
-                            IsActive = false,
-                            IsVip = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "userOne@mail.com",
-                            NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHGgwXlwsOU24kWVDKXvbdO6O6+jC2zPIJNsoD+VufLwE3oWUPz18QcPyLg8S9BKMA==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "userOne@mail.com"
-                        },
-                        new
-                        {
-                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "e3a5a039-ee55-4b94-9016-acec0736f691",
-                            Email = "guest@mail.com",
-                            EmailConfirmed = false,
-                            IsActive = false,
-                            IsVip = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "guest@mail.com",
-                            NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMB1j+HJNOxzHqKt/PXvgmztyfiiDGGKRMVqUZPHft9EETEAnNr1gReBkLR0b6h0xw==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "guest@mail.com"
-                        });
-                });
 
             modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.Car", b =>
                 {
@@ -579,6 +475,40 @@ namespace FuryRent.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "97167b96-02d6-4626-80af-a12397266713",
+                            Email = "userOne@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "userOne@mail.com",
+                            NormalizedUserName = "agent@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEILfshtNoeL36JRS688a3ocroIuEb03u8YdRhfGEx/aDmOLpSlA9ffjK1vJ4GTVShQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d9ac09e4-5a39-4555-8a28-ededd52ed924",
+                            TwoFactorEnabled = false,
+                            UserName = "userOne@mail.com"
+                        },
+                        new
+                        {
+                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "cf4318a1-9bad-4bc3-8801-c56a63aeea27",
+                            Email = "guest@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "guest@mail.com",
+                            NormalizedUserName = "guest@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHY5wPHFHWUwtKVeWNNLCcukmB7ToRytVpFrAFevlcOcVg/USxTrklgKixxYl/uw5Q==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "6fbb8b49-034a-4f60-a34f-c69b01b1cc35",
+                            TwoFactorEnabled = false,
+                            UserName = "guest@mail.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -704,8 +634,8 @@ namespace FuryRent.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FuryRent.Infrastructure.Data.Models.ApplicationUser", "Renter")
-                        .WithMany("Rents")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Renter")
+                        .WithMany()
                         .HasForeignKey("RenterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -717,7 +647,7 @@ namespace FuryRent.Infrastructure.Migrations
 
             modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.VipUser", b =>
                 {
-                    b.HasOne("FuryRent.Infrastructure.Data.Models.ApplicationUser", "User")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -775,11 +705,6 @@ namespace FuryRent.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Rents");
                 });
 
             modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.Category", b =>

@@ -5,24 +5,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FuryRent.Infrastructure.Data.Configuration
 {
-    public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
+    public class UserConfiguration : IEntityTypeConfiguration<IdentityUser>
     {
         
-            public void Configure(EntityTypeBuilder<ApplicationUser> builder)
+            public void Configure(EntityTypeBuilder<IdentityUser> builder)
             {
-                builder
-                    .Property(p => p.IsActive)
-                    .HasDefaultValue(true);
-
                 builder.HasData(CreateUsers());
             }
 
-            private List<ApplicationUser> CreateUsers()
+            private List<IdentityUser> CreateUsers()
             {
-                var users = new List<ApplicationUser>();
-                var hasher = new PasswordHasher<ApplicationUser>();
+                var users = new List<IdentityUser>();
+                var hasher = new PasswordHasher<IdentityUser>();
 
-                var user = new ApplicationUser()
+                var user = new IdentityUser()
                 {
                     Id = "dea12856-c198-4129-b3f3-b893d8395082",
                     UserName = "userOne@mail.com",
@@ -36,7 +32,7 @@ namespace FuryRent.Infrastructure.Data.Configuration
 
                 users.Add(user);
 
-                user = new ApplicationUser()
+                user = new IdentityUser()
                 {
                     Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                     UserName = "guest@mail.com",
