@@ -10,7 +10,8 @@
 {
     <b>Filter by Make:</b>
     <br />
-    @Html.TextBox("make");
+    @Html.TextBox("make")
+    ;
     <input class="btn-danger" type="submit" value="Filter" />
 }
 
@@ -29,7 +30,7 @@
 
 
 <div class="card-deck">
-    @foreach(var car in Model)
+    @foreach (var car in Model)
     {
         <div class="card border-1 border-danger mb-3" style="width: 45rem;">
             <img src="@car.ImageUrl" class="card-img-top" alt="@car.Make @car.Model">

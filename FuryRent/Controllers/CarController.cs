@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.VisualBasic;
 using FuryRent.Infrastructure.Data.Enumerators;
+using FuryRent.Infrastructure.Data.Models;
 
 namespace FuryRent.Controllers
 {
@@ -35,7 +36,7 @@ namespace FuryRent.Controllers
 
         public async Task<IActionResult> ByMake(string make)
         {
-            if(make == null)
+            if (make == null)
             {
                 return RedirectToAction(nameof(All));
             }
@@ -55,15 +56,76 @@ namespace FuryRent.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> OrderBy(string data)
+        {
+            if (data == null)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            var model = new List<AllCarsQueryModel>();
+
+            switch (data)
+            {
+                case "Price":
+                    model = await context.Cars
+                    .OrderBy(c => c.PricePerDay)
+                     .AsNoTracking()
+                     .Select(c => new AllCarsQueryModel()
+                     {
+                        Id = c.Id,
+                        Make = c.Make,
+                        Model = c.Model,
+                        ImageUrl = c.ImageUrl,
+                        PricePerDay = $"{c.PricePerDay:f2}",
+                     })
+                     .ToListAsync();
+                    break;
+
+                case "Make":
+                    model = await context.Cars
+                    .OrderBy(c => c.Make)
+                     .AsNoTracking()
+                     .Select(c => new AllCarsQueryModel()
+                     {
+                        Id = c.Id,
+                        Make = c.Make,
+                        Model = c.Model,
+                        ImageUrl = c.ImageUrl,
+                        PricePerDay = $"{c.PricePerDay:f2}",
+                     })
+                     .ToListAsync();
+                    break;
+
+                case "Year":
+                    model = await context.Cars
+                     .OrderBy(c => c.YearOfProduction)
+                      .AsNoTracking()
+                       .Select(c => new AllCarsQueryModel()
+                       {
+                         Id = c.Id,
+                         Make = c.Make,
+                         Model = c.Model,
+                         ImageUrl = c.ImageUrl,
+                         PricePerDay = $"{c.PricePerDay:f2}",
+                         YearOfProduction = c.YearOfProduction.ToString(FuryRent.Core.DateConstant.DateFormat)
+                       })
+                       .ToListAsync();
+                    break;
+            }
+
+            return View(model);
+        }
+
         public async Task<IActionResult> Details(int Id)
         {
             var car = await context.Cars
                 .Include(c => c.Category)
                 .FirstOrDefaultAsync(c => c.Id == Id);
 
-            if(car == null)
+            if (car == null)
             {
-                    throw new InvalidOperationException("There is no such car!");
+                throw new InvalidOperationException("There is no such car!");
             }
 
             var model = new DetailsViewModel()
