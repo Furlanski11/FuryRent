@@ -1,0 +1,44 @@
+﻿@model List<AllCarsQueryModel>
+
+@{
+    ViewData["Title"] = "All Cars";
+}
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+
+@using (Html.BeginForm("ByMake", "Car", FormMethod.Get))
+{
+    <b>Filter by Make:</b>
+    <br />
+    @Html.TextBox("make");
+    <input class="btn-danger" type="submit" value="Filter" />
+}
+
+<hr />
+
+<div class="dropdown mb-1">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Order by:
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="All">Price</a>
+        <a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="All">Make</a>
+        <a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="All">Year</a>
+    </div>
+</div>
+
+
+<div class="card-deck">
+    @foreach(var car in Model)
+    {
+        <div class="card border-1 border-danger mb-3">
+            <img src="@car.ImageUrl" class="card-img-top" alt="@car.Make @car.Model">
+            <div class="card-body">
+                <h5 class="card-title">@car.Make @car.Model</h5>
+                <p class="card-model">@car.PricePerDay$ /day</p>
+                <a asp-area="" asp-controller="Car" asp-action="All" class="btn btn-danger">Details</a>
+                <a asp-area="" asp-controller="Car" asp-action="All" class="btn btn-danger">Rent</a>
+            </div>
+        </div>
+    }
+</div>
