@@ -1,4 +1,4 @@
-﻿@model List<AllCarsQueryModel>
+﻿@model IEnumerable<AllCarsQueryModel>
 
 @{
     ViewData["Title"] = "All Cars";
@@ -36,8 +36,8 @@
             <div class="card-body">
                 <h5 class="card-title">@car.Make @car.Model</h5>
                 <p class="card-model">@car.PricePerDay$ /day</p>
-                <a asp-area="" asp-controller="Car" asp-action="All" class="btn btn-danger">Details</a>
-                <a asp-area="" asp-controller="Car" asp-action="All" class="btn btn-danger">Rent</a>
+                <a asp-controller="Car" asp-action="Details" asp-route-id="@car.Id" class="btn btn-danger">Details</a>
+                <a asp-controller="Car" asp-action="All" asp-route-id="@car.Id" class="btn btn-danger">Rent</a>
             </div>
         </div>
     }

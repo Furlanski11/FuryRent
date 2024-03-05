@@ -1,0 +1,34 @@
+﻿@model DetailsViewModel
+
+@{
+    ViewBag.Title = "Car Details";
+}
+
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="card border-2 border-danger mb-2">
+			<img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Make @Model.Model">
+			<div class="card-body">
+				<h5 class="card-title">@Model.Make @Model.Model</h5>
+				<p class="card-model"><span class="fw-bold">Color: </span>@Model.Color</p>
+				<p class="card-model"><span class="fw-bold">Engine: </span>@Model.EngineType</p>
+				<p class="card-model"><span class="fw-bold">Horsepower: </span>@Model.Horsepower</p>
+				<p class="card-model"><span class="fw-bold">Gearbox: </span>@Model.GearboxType</p>
+				<p class="card-model"><span class="fw-bold">Kilometers: </span>@Model.Kilometers</p>
+				<p class="card-model"><span class="fw-bold">Year: </span>@Model.YearOfProduction</p>
+				<p class="card-model"><span class="fw-bold">Category: </span>@Model.Category</p>
+				<p class="card-model"><span class="fw-bold">Price per day: </span>@Model.PricePerDay$ /day</p>
+				<a asp-area="" asp-controller="Car" asp-action="All" class="btn btn-danger">Rent</a>
+			</div>
+		</div>
+
+        <a asp-controller="Car" asp-action="All" class="btn btn-danger mb-2 w-100 p-3 fw-bold">Back to All Cars</a>
+
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

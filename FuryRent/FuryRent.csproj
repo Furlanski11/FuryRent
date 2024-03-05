@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FuryRent.Core\FuryRent.Core.csproj" />
     <ProjectReference Include="..\FuryRent.Infrastructure\FuryRent.Infrastructure.csproj" />
   </ItemGroup>
 
