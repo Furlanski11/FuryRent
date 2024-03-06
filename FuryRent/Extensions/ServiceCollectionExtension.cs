@@ -31,6 +31,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequiredLength = 7;
+                options.Password.RequireNonAlphanumeric = false;
             })
             .AddEntityFrameworkStores<FuryRentDbContext>();
 
