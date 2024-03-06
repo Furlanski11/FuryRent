@@ -1,11 +1,9 @@
-﻿using FuryRent.Infrastructure.Data;
-using Microsoft.AspNetCore.Mvc;
-using FuryRent.Core.Models.Car;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.VisualBasic;
+﻿using FuryRent.Core.Models.Car;
+using FuryRent.Infrastructure.Data;
 using FuryRent.Infrastructure.Data.Enumerators;
-using FuryRent.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FuryRent.Controllers
 {
@@ -108,7 +106,6 @@ namespace FuryRent.Controllers
                          Model = c.Model,
                          ImageUrl = c.ImageUrl,
                          PricePerDay = $"{c.PricePerDay:f2}",
-                         YearOfProduction = c.YearOfProduction.ToString(FuryRent.Core.DateConstant.DateFormat)
                        })
                        .ToListAsync();
                     break;
