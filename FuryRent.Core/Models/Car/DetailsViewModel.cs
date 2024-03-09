@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static FuryRent.Core.DateConstant;
+using static FuryRent.Core.CarConstants;
 
 namespace FuryRent.Core.Models.Car
 {
