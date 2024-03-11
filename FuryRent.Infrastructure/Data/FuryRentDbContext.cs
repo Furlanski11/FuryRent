@@ -18,6 +18,8 @@ namespace FuryRent.Infrastructure.Data
             builder.ApplyConfiguration(new CarConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new PaymentTypesConfiguration());
+            builder.ApplyConfiguration(new EngineTypeConfiguration());
+            builder.ApplyConfiguration(new GearboxTypeConfiguration());
 
             base.OnModelCreating(builder);
         }
@@ -31,6 +33,10 @@ namespace FuryRent.Infrastructure.Data
         public DbSet<Payment> Payments { get; set; } = null!;
 
         public DbSet<PaymentTypes> PaymentTypes { get; set; } = null!;
+
+        public DbSet<EngineType> EngineTypes { get; set; } = null!;
+        
+        public DbSet<GearboxType> GearboxTypes { get; set; } = null!;
 
         public DbSet<VipUser> VipUsers { get; set; } = null!;
 

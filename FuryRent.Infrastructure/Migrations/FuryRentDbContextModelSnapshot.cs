@@ -38,10 +38,10 @@ namespace FuryRent.Infrastructure.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<int>("EngineType")
+                    b.Property<int>("EngineTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GearboxType")
+                    b.Property<int>("GearboxTypeId")
                         .HasColumnType("int");
 
                     b.Property<int>("Horsepower")
@@ -82,6 +82,10 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("EngineTypeId");
+
+                    b.HasIndex("GearboxTypeId");
+
                     b.ToTable("Cars");
 
                     b.HasData(
@@ -90,8 +94,8 @@ namespace FuryRent.Infrastructure.Migrations
                             Id = 1,
                             CategoryId = 1,
                             Color = "Black",
-                            EngineType = 1,
-                            GearboxType = 1,
+                            EngineTypeId = 1,
+                            GearboxTypeId = 1,
                             Horsepower = 605,
                             ImageUrl = "https://cdn.dealeraccelerate.com/miami/1/221/3697/1920x1440/2017-audi-s8-plus",
                             IsAvailable = true,
@@ -107,8 +111,8 @@ namespace FuryRent.Infrastructure.Migrations
                             Id = 2,
                             CategoryId = 1,
                             Color = "White",
-                            EngineType = 1,
-                            GearboxType = 1,
+                            EngineTypeId = 1,
+                            GearboxTypeId = 1,
                             Horsepower = 560,
                             ImageUrl = "https://avogroup.lv/wp-content/uploads/2022/04/F10-F11-M-Sport-M5-Side-skirts-addons-blades-Performance-ABS-White-Matt-3.jpg",
                             IsAvailable = true,
@@ -124,8 +128,8 @@ namespace FuryRent.Infrastructure.Migrations
                             Id = 3,
                             CategoryId = 1,
                             Color = "Red",
-                            EngineType = 1,
-                            GearboxType = 1,
+                            EngineTypeId = 1,
+                            GearboxTypeId = 1,
                             Horsepower = 585,
                             ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/1/19/Mercedes-Benz_CLS63_AMG_Stealth_%288676918717%29.jpg",
                             IsAvailable = true,
@@ -141,8 +145,8 @@ namespace FuryRent.Infrastructure.Migrations
                             Id = 4,
                             CategoryId = 5,
                             Color = "Yellow",
-                            EngineType = 1,
-                            GearboxType = 1,
+                            EngineTypeId = 1,
+                            GearboxTypeId = 1,
                             Horsepower = 562,
                             ImageUrl = "https://www.clinkardcars.co.uk/blobs/Images/Stock/208/177fe8ee-d38b-42f1-b171-90510b06abb6.JPG?width=2000&height=1333",
                             IsAvailable = true,
@@ -158,8 +162,8 @@ namespace FuryRent.Infrastructure.Migrations
                             Id = 5,
                             CategoryId = 3,
                             Color = "Black",
-                            EngineType = 1,
-                            GearboxType = 1,
+                            EngineTypeId = 1,
+                            GearboxTypeId = 1,
                             Horsepower = 580,
                             ImageUrl = "https://www.europeanprestige.co.uk/blobs/stock/338/images/c22c4591-3a08-4389-9ef9-4cb1c2126400/hi4a1239.jpg?width=2000&height=1333",
                             IsAvailable = true,
@@ -175,8 +179,8 @@ namespace FuryRent.Infrastructure.Migrations
                             Id = 6,
                             CategoryId = 2,
                             Color = "Red",
-                            EngineType = 1,
-                            GearboxType = 1,
+                            EngineTypeId = 1,
+                            GearboxTypeId = 1,
                             Horsepower = 717,
                             ImageUrl = "https://autozine.org/Archive/Chrysler/new/Challenger_Hellcat_1.jpg",
                             IsAvailable = true,
@@ -192,8 +196,8 @@ namespace FuryRent.Infrastructure.Migrations
                             Id = 7,
                             CategoryId = 4,
                             Color = "Silver",
-                            EngineType = 1,
-                            GearboxType = 1,
+                            EngineTypeId = 1,
+                            GearboxTypeId = 1,
                             Horsepower = 517,
                             ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/2/2f/Aston_Martin_DBS_-_Flickr_-_Alexandre_Pr%C3%A9vot_%2811%29_%28cropped%29.jpg",
                             IsAvailable = true,
@@ -247,6 +251,76 @@ namespace FuryRent.Infrastructure.Migrations
                         {
                             Id = 5,
                             Name = "Italian"
+                        });
+                });
+
+            modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.EngineType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EngineTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Petrol"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Diesel"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "PlugInHybrid"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Electric"
+                        });
+                });
+
+            modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.GearboxType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GearboxTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Automatic"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Manual"
                         });
                 });
 
@@ -481,15 +555,15 @@ namespace FuryRent.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "97167b96-02d6-4626-80af-a12397266713",
+                            ConcurrencyStamp = "70d1692d-1690-410d-addc-479044847ab0",
                             Email = "userOne@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "userOne@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEILfshtNoeL36JRS688a3ocroIuEb03u8YdRhfGEx/aDmOLpSlA9ffjK1vJ4GTVShQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENtjOukVsai/45Iw/ExquRqcyWLR7QrBGI2SFafKB+uCbByXvCi+8R3EdVb0MEfJNw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d9ac09e4-5a39-4555-8a28-ededd52ed924",
+                            SecurityStamp = "e19d6e6b-b64e-41c8-9a0f-0ae890934101",
                             TwoFactorEnabled = false,
                             UserName = "userOne@mail.com"
                         },
@@ -497,15 +571,15 @@ namespace FuryRent.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cf4318a1-9bad-4bc3-8801-c56a63aeea27",
+                            ConcurrencyStamp = "a14a984c-ed62-42c6-9a9e-bb91e11411a9",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHY5wPHFHWUwtKVeWNNLCcukmB7ToRytVpFrAFevlcOcVg/USxTrklgKixxYl/uw5Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC2j/xQzhN4up2KEenE9VnWrPtxFZxWZrl/P08BwQIkC+wvRJc+J7C3ebGpi0TdIOw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6fbb8b49-034a-4f60-a34f-c69b01b1cc35",
+                            SecurityStamp = "b0457f4d-919f-4dec-9004-f55882f5f634",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         });
@@ -604,7 +678,23 @@ namespace FuryRent.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FuryRent.Infrastructure.Data.Models.EngineType", "EngineType")
+                        .WithMany("Cars")
+                        .HasForeignKey("EngineTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FuryRent.Infrastructure.Data.Models.GearboxType", "GearboxType")
+                        .WithMany("Cars")
+                        .HasForeignKey("GearboxTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("EngineType");
+
+                    b.Navigation("GearboxType");
                 });
 
             modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.Payment", b =>
@@ -708,6 +798,16 @@ namespace FuryRent.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.Category", b =>
+                {
+                    b.Navigation("Cars");
+                });
+
+            modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.EngineType", b =>
+                {
+                    b.Navigation("Cars");
+                });
+
+            modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.GearboxType", b =>
                 {
                     b.Navigation("Cars");
                 });
