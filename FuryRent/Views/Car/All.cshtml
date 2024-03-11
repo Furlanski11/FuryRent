@@ -1,44 +1,50 @@
 ﻿@model IEnumerable<AllCarsQueryModel>
 
-@{
-    ViewData["Title"] = "All Cars";
-}
+<head>
+	@{
+		ViewData["Title"] = "All Cars";
+	}
+	<link href="~/css/site.css" />
+</head>
+
 
 <h2 class="text-center">@ViewData["Title"]</h2>
 
 @using (Html.BeginForm("ByMake", "Car", FormMethod.Get))
 {
-    <b>Filter by Make:</b>
-    <br />
-    @Html.TextBox("make");
-    <input class="btn-danger" type="submit" value="Filter" />
+	<b>Filter by Make:</b>
+	<br />
+	@Html.TextBox("make")
+	;
+	<input class="btn-danger" type="submit" value="Filter" />
 }
 
 <hr />
 
-<div class="dropdown mb-1">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Order by:
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="OrderBy" asp-route-data="Price">Price</a>
-        <a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="OrderBy" asp-route-data="Make">Make</a>
-        <a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="OrderBy" asp-route-data="Year">Year</a>
-    </div>
+<div class="orderBy dropdown mb-1">
+	<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		Order by:
+	</button>
+	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		<a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="OrderBy" asp-route-data="Price">Price</a>
+		<a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="OrderBy" asp-route-data="Make">Make</a>
+		<a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="OrderBy" asp-route-data="Year">Year</a>
+	</div>
 </div>
 
 
+
 <div class="card-deck">
-    @foreach(var car in Model)
-    {
-        <div class="card border-1 border-danger mb-3" style="width: 45rem;">
-            <img src="@car.ImageUrl" class="card-img-top" alt="@car.Make @car.Model">
-            <div class="card-body">
-                <h5 class="card-title">@car.Make @car.Model</h5>
-                <p class="card-model">@car.PricePerDay$ /day</p>
-                <a asp-controller="Car" asp-action="Details" asp-route-id="@car.Id" class="btn btn-danger">Details</a>
-                <a asp-controller="Car" asp-action="All" asp-route-id="@car.Id" class="btn btn-danger">Rent</a>
-            </div>
-        </div>
-    }
+	@foreach (var car in Model)
+	{
+		<div class="card border-1 border-danger mb-3" style="width: 45rem;">
+			<img src="@car.ImageUrl" class="card-img-top" alt="@car.Make @car.Model">
+			<div class="card-body">
+				<h5 class="card-title">@car.Make @car.Model</h5>
+				<p class="card-model">@car.PricePerDay$ /day</p>
+				<a asp-controller="Car" asp-action="Details" asp-route-id="@car.Id" class="btn btn-danger">Details</a>
+				<a asp-controller="Car" asp-action="All" asp-route-id="@car.Id" class="btn btn-danger">Rent</a>
+			</div>
+		</div>
+	}
 </div>

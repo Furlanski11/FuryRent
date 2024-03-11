@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static FuryRent.Infrastructure.Constants.DataConstants;
 using static FuryRent.Core.CarConstants;
+using static FuryRent.Infrastructure.Constants.DataConstants;
 
 namespace FuryRent.Core.Models.Car
 {
-	public class EditCarFormModel
+    public class EditCarFormModel
 	{
         public int Id { get; set; }
 
@@ -30,20 +30,17 @@ namespace FuryRent.Core.Models.Car
 		public int Kilometers { get; set; }
 
 		[Required(ErrorMessage = RequireErrorMessage)]
-		[Range(1, 4)]
-		public int EngineType { get; set; }
+		public int EngineTypeId { get; set; }
 
 		[Required(ErrorMessage = RequireErrorMessage)]
-		[MinLength(100)]
 		public int Horsepower { get; set; }
 
 		[Required(ErrorMessage = RequireErrorMessage)]
-		[Range(1, 2)]
-		public int GearboxType { get; set; }
+		public int GearboxTypeId { get; set; }
 
 		[Required(ErrorMessage = RequireErrorMessage)]
 		[DisplayFormat(DataFormatString = CarConstants.DateFormat)]
-		public string YearOfroduction { get; set; } = string.Empty;
+		public string YearOfProduction { get; set; } = string.Empty;
 
 		[Required(ErrorMessage = RequireErrorMessage)]
 		[Column(TypeName = "money")]
@@ -56,5 +53,9 @@ namespace FuryRent.Core.Models.Car
 		public bool IsVipOnly { get; set; }
 
 		public IEnumerable<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
+
+		public IEnumerable<EngineTypeViewModel> EngineTypes { get; set; } = new List<EngineTypeViewModel>();
+
+		public IEnumerable<GearboxTypeViewModel> GearboxTypes { get; set; } = new List<GearboxTypeViewModel>();
 	}
 }
