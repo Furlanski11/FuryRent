@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FuryRent.Infrastructure.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,6 +59,32 @@ namespace FuryRent.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EngineTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EngineTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GearboxTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GearboxTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -210,9 +236,9 @@ namespace FuryRent.Infrastructure.Migrations
                     Model = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     Color = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Kilometers = table.Column<int>(type: "int", nullable: false),
-                    EngineType = table.Column<int>(type: "int", nullable: false),
+                    EngineTypeId = table.Column<int>(type: "int", nullable: false),
                     Horsepower = table.Column<int>(type: "int", nullable: false),
-                    GearboxType = table.Column<int>(type: "int", nullable: false),
+                    GearboxTypeId = table.Column<int>(type: "int", nullable: false),
                     YearOfProduction = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PricePerDay = table.Column<decimal>(type: "money", precision: 18, scale: 2, nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
@@ -226,6 +252,18 @@ namespace FuryRent.Infrastructure.Migrations
                         name: "FK_Cars_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Cars_EngineTypes_EngineTypeId",
+                        column: x => x.EngineTypeId,
+                        principalTable: "EngineTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Cars_GearboxTypes_GearboxTypeId",
+                        column: x => x.GearboxTypeId,
+                        principalTable: "GearboxTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -292,8 +330,8 @@ namespace FuryRent.Infrastructure.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "cf4318a1-9bad-4bc3-8801-c56a63aeea27", "guest@mail.com", false, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEHY5wPHFHWUwtKVeWNNLCcukmB7ToRytVpFrAFevlcOcVg/USxTrklgKixxYl/uw5Q==", null, false, "6fbb8b49-034a-4f60-a34f-c69b01b1cc35", false, "guest@mail.com" },
-                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "97167b96-02d6-4626-80af-a12397266713", "userOne@mail.com", false, false, null, "userOne@mail.com", "agent@mail.com", "AQAAAAEAACcQAAAAEILfshtNoeL36JRS688a3ocroIuEb03u8YdRhfGEx/aDmOLpSlA9ffjK1vJ4GTVShQ==", null, false, "d9ac09e4-5a39-4555-8a28-ededd52ed924", false, "userOne@mail.com" }
+                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, "a14a984c-ed62-42c6-9a9e-bb91e11411a9", "guest@mail.com", false, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEC2j/xQzhN4up2KEenE9VnWrPtxFZxWZrl/P08BwQIkC+wvRJc+J7C3ebGpi0TdIOw==", null, false, "b0457f4d-919f-4dec-9004-f55882f5f634", false, "guest@mail.com" },
+                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, "70d1692d-1690-410d-addc-479044847ab0", "userOne@mail.com", false, false, null, "userOne@mail.com", "agent@mail.com", "AQAAAAEAACcQAAAAENtjOukVsai/45Iw/ExquRqcyWLR7QrBGI2SFafKB+uCbByXvCi+8R3EdVb0MEfJNw==", null, false, "e19d6e6b-b64e-41c8-9a0f-0ae890934101", false, "userOne@mail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -309,6 +347,26 @@ namespace FuryRent.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "EngineTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Petrol" },
+                    { 2, "Diesel" },
+                    { 3, "PlugInHybrid" },
+                    { 4, "Electric" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "GearboxTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Automatic" },
+                    { 2, "Manual" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "PaymentTypes",
                 columns: new[] { "Id", "TypeName" },
                 values: new object[,]
@@ -319,7 +377,7 @@ namespace FuryRent.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Cars",
-                columns: new[] { "Id", "CategoryId", "Color", "EngineType", "GearboxType", "Horsepower", "ImageUrl", "IsAvailable", "IsVipOnly", "Kilometers", "Make", "Model", "PricePerDay", "YearOfProduction" },
+                columns: new[] { "Id", "CategoryId", "Color", "EngineTypeId", "GearboxTypeId", "Horsepower", "ImageUrl", "IsAvailable", "IsVipOnly", "Kilometers", "Make", "Model", "PricePerDay", "YearOfProduction" },
                 values: new object[,]
                 {
                     { 1, 1, "Black", 1, 1, 605, "https://cdn.dealeraccelerate.com/miami/1/221/3697/1920x1440/2017-audi-s8-plus", true, false, 118000, "Audi", "S8", 450m, new DateTime(2017, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified) },
@@ -374,6 +432,16 @@ namespace FuryRent.Infrastructure.Migrations
                 name: "IX_Cars_CategoryId",
                 table: "Cars",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cars_EngineTypeId",
+                table: "Cars",
+                column: "EngineTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cars_GearboxTypeId",
+                table: "Cars",
+                column: "GearboxTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_PaymentTypeId",
@@ -441,6 +509,12 @@ namespace FuryRent.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "EngineTypes");
+
+            migrationBuilder.DropTable(
+                name: "GearboxTypes");
         }
     }
 }

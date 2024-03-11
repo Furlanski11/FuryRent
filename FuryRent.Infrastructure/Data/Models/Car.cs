@@ -11,34 +11,38 @@ namespace FuryRent.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(ImageUrlMaxLength)]
+        [StringLength(ImageUrlMaxLength, MinimumLength = ImageUrlMinLength)]
         public string ImageUrl { get; set; } = null!;
 
         [Required]
-        [MaxLength(CarMakeMaxLength)]
+        [StringLength(CarMakeMaxLength, MinimumLength = CarMakeMinLength)]
         public string Make { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength(CarModelMaxLength)]
+        [StringLength(CarModelMaxLength, MinimumLength = CarModeleMinLength)]
         public string Model { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength(CarColorMaxLength)]
+        [StringLength(CarColorMaxLength, MinimumLength = CarColorMinLength)]
         public string Color { get; set; } = string.Empty;
 
         [Required]
         public int Kilometers { get; set; }
 
         [Required]
-        [Range(1, 4)]
-        public int EngineType { get; set; }
+        public int EngineTypeId { get; set; }
+
+        [ForeignKey(nameof(EngineTypeId))]
+        public EngineType EngineType { get; set; } = null!;
 
         [Required]
         public int Horsepower { get; set; }
 
         [Required]
-        [Range(1,2)]
-        public int GearboxType { get; set; }
+        public int GearboxTypeId { get; set; }
+
+        [ForeignKey(nameof(GearboxTypeId))]
+        public GearboxType GearboxType { get; set; } = null!;
 
         [Required]
         public DateTime YearOfProduction { get; set; }
