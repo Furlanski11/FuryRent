@@ -29,10 +29,13 @@
 		<a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="OrderBy" asp-route-data="Price">Price</a>
 		<a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="OrderBy" asp-route-data="Make">Make</a>
 		<a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="OrderBy" asp-route-data="Year">Year</a>
+		<a class="dropdown-item" asp-area="" asp-controller="Car" asp-action="OrderBy" asp-route-data="HorsePower">HorsePower</a>
 	</div>
 </div>
 
-
+<div>
+	<a class="btn btn-outline-success" asp-area="" asp-controller="Car" asp-action="Add">Add a car</a>
+</div>
 
 <div class="card-deck">
 	@foreach (var car in Model)

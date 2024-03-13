@@ -9,7 +9,7 @@ namespace FuryRent.Infrastructure.Constants
         public const int CarMakeMaxLength = 15;
 
         public const int CarModeleMinLength = 3;
-        public const int CarModelMaxLength = 15;
+        public const int CarModelMaxLength = 50;
 
         public const int CarColorMinLength = 3;
         public const int CarColorMaxLength = 30;
