@@ -1,5 +1,7 @@
 ﻿using FuryRent.Core;
+using FuryRent.Core.Contracts;
 using FuryRent.Core.Models.Car;
+using FuryRent.Core.Services;
 using FuryRent.Infrastructure.Data;
 using FuryRent.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +14,13 @@ namespace FuryRent.Controllers
     [Authorize]
     public class CarController : Controller
     {
+        private readonly ICarService cars;
+
+        public CarController(ICarService _cars)
+        {
+            cars = _cars;
+        }
+
         private readonly FuryRentDbContext context;
 
         public CarController(FuryRentDbContext _context)
@@ -22,16 +31,7 @@ namespace FuryRent.Controllers
         [HttpGet]
         public async Task<IActionResult> All()
         {
-            var model = await context.Cars
-                .AsNoTracking()
-                .Select(c => new AllCarsQueryModel()
-                {
-                    Id = c.Id,
-                    Make = c.Make,
-                    Model = c.Model,
-                    ImageUrl = c.ImageUrl,
-                    PricePerDay = $"{c.PricePerDay:f2}",
-                }).ToListAsync();
+            var model = cars.All();
 
             return View(model);
         }
@@ -141,34 +141,7 @@ namespace FuryRent.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int Id)
         {
-            var car = await context.Cars
-                .Include(c => c.Category)
-                .Include(c => c.EngineType)
-                .Include(c => c.GearboxType)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == Id);
-
-            if (car == null)
-            {
-                throw new InvalidOperationException("There is no such car!");
-            }
-
-            var model = new DetailsViewModel()
-            {
-                Id = car.Id,
-                ImageUrl = car.ImageUrl,
-                Make = car.Make,
-                Model = car.Model,
-                Color = car.Color,
-                Kilometers = car.Kilometers,
-                EngineType = car.EngineType.Name,
-                Horsepower = car.Horsepower,
-                GearboxType = car.GearboxType.Name,
-                YearOfProduction = car.YearOfProduction.ToString(FuryRent.Core.CarConstants.DateFormat),
-                IsAvailable = car.IsAvailable,
-                PricePerDay = $"{car.PricePerDay:f2}",
-                Category = car.Category.Name
-            };
+            var model = await cars.Details(Id);
 
             return View(model);
         }
