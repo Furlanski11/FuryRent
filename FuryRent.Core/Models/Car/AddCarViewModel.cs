@@ -48,8 +48,11 @@ namespace FuryRent.Core.Models.Car
         public string YearOfProduction { get; set; } = string.Empty;
 
         [Required(ErrorMessage = RequireErrorMessage)]
-        [Column(TypeName = "money")]
-        [Precision(18, 2)]
+        [Range(typeof(decimal),
+			PricePerDayMinimum,
+			PricePerDayMaximum,
+            ConvertValueInInvariantCulture = true,
+            ErrorMessage = "Price per day must be a positive number and less than {2}")]
         public decimal PricePerDay { get; set; }
 
         [Required(ErrorMessage = RequireErrorMessage)]

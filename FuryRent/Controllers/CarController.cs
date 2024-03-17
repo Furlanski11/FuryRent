@@ -20,7 +20,7 @@ namespace FuryRent.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> All(string order)
+        public async Task<IActionResult> All()
         {
             var model = await context.Cars
                 .AsNoTracking()
@@ -219,6 +219,8 @@ namespace FuryRent.Controllers
             if (!ModelState.IsValid)
             {
                 carModel.Categories = await GetCategories();
+                carModel.GearboxTypes = await GetGearboxTypes();
+                carModel.EngineTypes= await GetEngineTypes();
 
                 return RedirectToAction(nameof(Add));
             }
@@ -247,6 +249,41 @@ namespace FuryRent.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var car = await context.Cars
+                .Where(s => s.Id == id)
+                .FirstOrDefaultAsync();
+
+            var model = new DeleteCarViewModel()
+            {
+                Id = car.Id,
+                Make = car.Make,
+                Model = car.Model,
+                ImageUrl = car.ImageUrl,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(DeleteCarViewModel carModel)
+        {
+            var car = await context.Cars
+                .Where(s => s.Id == carModel.Id)
+                .FirstOrDefaultAsync();
+
+            if (car == null)
+            {
+                return BadRequest();
+            }
+
+             context.Cars.Remove(car);
+            await context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(All));
+        }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)

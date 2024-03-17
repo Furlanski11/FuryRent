@@ -64,6 +64,11 @@
                 <span asp-validation-for="@Model.Horsepower" class="text-danger"></span>
             </div>
             <div class="mb-3">
+                <label asp-for="@Model.Kilometers" class="form-label-add-edit">Kilometers</label>
+                <input asp-for="@Model.Kilometers" class="form-control" />
+                <span asp-validation-for="@Model.Kilometers" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
                 <label asp-for="@Model.GearboxTypeId" class="form-label-add-edit">Select Gearbox type</label>
                 <select asp-for="@Model.GearboxTypeId" class="form-control" aria-required="true">
                     <option disabled selected value="">Select Gearbox type...</option>
