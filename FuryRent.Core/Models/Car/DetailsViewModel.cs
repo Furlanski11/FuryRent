@@ -3,7 +3,7 @@ using static FuryRent.Core.CarConstants;
 
 namespace FuryRent.Core.Models.Car
 {
-	public class DetailsViewModel
+    public class DetailsViewModel
     {
         public int Id { get; set; }
 
@@ -25,8 +25,8 @@ namespace FuryRent.Core.Models.Car
 
         public string GearboxType { get; set; } = string.Empty;
 
-		[DisplayFormat(DataFormatString = DateFormat)]
-        public string YearOfProduction { get; set; } = string.Empty;
+        [DisplayFormat(DataFormatString = DateFormat)]
+        public DateTime YearOfProduction { get; set; }
 
         public string PricePerDay { get; set; } = string.Empty;
 

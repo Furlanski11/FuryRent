@@ -28,12 +28,12 @@
             </div>
             <div class="mb-3">
                 <label asp-for="@Model.YearOfProduction" class="form-label-add-edit">Year of production</label>
-                <input asp-for="@Model.YearOfProduction" class="form-control" aria-required="true" placeholder="dd/MM/yyyy")" />
+                <input asp-for="@Model.YearOfProduction" class="form-control" aria-required="true" placeholder="dd/MM/yyyy" )" />
                 <span asp-validation-for="@Model.YearOfProduction" class="text-danger"></span>
             </div>
             <div class="mb-3">
                 <label asp-for="@Model.Color" class="form-label-add-edit">Color</label>
-                <input asp-for="@Model.Color" class="form-control"/>
+                <input asp-for="@Model.Color" class="form-control" />
                 <span asp-validation-for="@Model.Color" class="text-danger"></span>
             </div>
             <div class="mb-3">
@@ -86,7 +86,10 @@
             </div>
             <div class="mb-3">
                 <label asp-for="@Model.IsVipOnly" class="form-label-add-edit">Is Vip Only</label>
-                <input asp-for="@Model.IsVipOnly" class="form-control" />
+                <select asp-for="@Model.IsVipOnly">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
                 <span asp-validation-for="@Model.IsVipOnly" class="text-danger"></span>
             </div>
             <div class="mb-3">

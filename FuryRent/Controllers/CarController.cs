@@ -1,12 +1,8 @@
 ﻿using FuryRent.Core;
 using FuryRent.Core.Contracts;
 using FuryRent.Core.Models.Car;
-using FuryRent.Core.Services;
-using FuryRent.Infrastructure.Data;
-using FuryRent.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace FuryRent.Controllers
@@ -21,119 +17,11 @@ namespace FuryRent.Controllers
             cars = _cars;
         }
 
-        private readonly FuryRentDbContext context;
-
-        public CarController(FuryRentDbContext _context)
-        {
-            context = _context;
-        }
 
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(string? make, string? criteria)
         {
-            var model = cars.All();
-
-            return View(model);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> ByMake(string make)
-        {
-            if (make == null)
-            {
-                return RedirectToAction(nameof(All));
-            }
-
-            var model = await context.Cars
-                .Where(c => c.Make == make)
-                .AsNoTracking()
-                .Select(c => new AllCarsQueryModel()
-                {
-                    Id = c.Id,
-                    Make = c.Make,
-                    Model = c.Model,
-                    ImageUrl = c.ImageUrl,
-                    PricePerDay = $"{c.PricePerDay:f2}",
-                }).ToListAsync();
-
-            return View(model);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> OrderBy(string data)
-        {
-            if (data == null)
-            {
-                return RedirectToAction(nameof(All));
-            }
-
-            var model = new List<AllCarsQueryModel>();
-
-            switch (data)
-            {
-                case "Price":
-                    model = await context.Cars
-                    .OrderBy(c => c.PricePerDay)
-                     .AsNoTracking()
-                     .Select(c => new AllCarsQueryModel()
-                     {
-                         Id = c.Id,
-                         Make = c.Make,
-                         Model = c.Model,
-                         ImageUrl = c.ImageUrl,
-                         PricePerDay = $"{c.PricePerDay:f2}",
-                     })
-                     .ToListAsync();
-                    break;
-
-                case "Make":
-                    model = await context.Cars
-                    .OrderBy(c => c.Make)
-                     .AsNoTracking()
-                     .Select(c => new AllCarsQueryModel()
-                     {
-                         Id = c.Id,
-                         Make = c.Make,
-                         Model = c.Model,
-                         ImageUrl = c.ImageUrl,
-                         PricePerDay = $"{c.PricePerDay:f2}",
-                     })
-                     .ToListAsync();
-                    break;
-
-                case "Year":
-                    model = await context.Cars
-                     .OrderBy(c => c.YearOfProduction)
-                      .AsNoTracking()
-                       .Select(c => new AllCarsQueryModel()
-                       {
-                           Id = c.Id,
-                           Make = c.Make,
-                           Model = c.Model,
-                           ImageUrl = c.ImageUrl,
-                           PricePerDay = $"{c.PricePerDay:f2}",
-                       })
-                       .ToListAsync();
-                    break;
-
-                case "HorsePower":
-                    model = await context.Cars
-                     .OrderBy(c => c.Horsepower)
-                      .AsNoTracking()
-                       .Select(c => new AllCarsQueryModel()
-                       {
-                           Id = c.Id,
-                           Make = c.Make,
-                           Model = c.Model,
-                           ImageUrl = c.ImageUrl,
-                           PricePerDay = $"{c.PricePerDay:f2}",
-                       })
-                       .ToListAsync();
-                    break;
-
-                default:
-                    throw new InvalidDataException();
-            }
+            var model = await cars.All(make, criteria);
 
             return View(model);
         }
@@ -149,11 +37,12 @@ namespace FuryRent.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var carModel = new AddCarViewModel();
-
-            carModel.Categories = await GetCategories();
-            carModel.EngineTypes = await GetEngineTypes();
-            carModel.GearboxTypes = await GetGearboxTypes();
+            var carModel = new AddCarViewModel
+            {
+                Categories = await cars.GetCategories(),
+                EngineTypes = await cars.GetEngineTypes(),
+                GearboxTypes = await cars.GetGearboxTypes()
+            };
 
             return View(carModel);
         }
@@ -172,51 +61,17 @@ namespace FuryRent.Controllers
                 ModelState.AddModelError(nameof(carModel.YearOfProduction), $"Invalid date! format must be {CarConstants.DateFormat}");
             }
 
-            bool isVipOnly = false;
-
-            switch (carModel.IsVipOnly)
-            {
-                case "Yes":
-                    isVipOnly = true;
-                    break;
-
-                case "No":
-                    isVipOnly = false;
-                    break;
-
-                default:
-                    ModelState.AddModelError(nameof(carModel.IsVipOnly), "Invalid input, the input must be 'Yes' or 'No'");
-                    break;
-            }
 
             if (!ModelState.IsValid)
             {
-                carModel.Categories = await GetCategories();
-                carModel.GearboxTypes = await GetGearboxTypes();
-                carModel.EngineTypes= await GetEngineTypes();
+                carModel.Categories = await cars.GetCategories();
+                carModel.GearboxTypes = await cars.GetGearboxTypes();
+                carModel.EngineTypes = await cars.GetEngineTypes();
 
                 return RedirectToAction(nameof(Add));
             }
 
-            var car = new Car()
-            {
-                Id = carModel.Id,
-                ImageUrl = carModel.ImageUrl,
-                Make = carModel.Make,
-                Model = carModel.Model,
-                Color = carModel.Color,
-                Kilometers = carModel.Kilometers,
-                EngineTypeId = carModel.EngineTypeId,
-                Horsepower = carModel.Horsepower,
-                GearboxTypeId = carModel.GearboxTypeId,
-                YearOfProduction = dateTime,
-                PricePerDay = carModel.PricePerDay,
-                CategoryId = carModel.CategoryId,
-                IsVipOnly = isVipOnly
-            };
-
-            await context.Cars.AddAsync(car);
-            await context.SaveChangesAsync();
+            await cars.Add(carModel);
 
             return RedirectToAction(nameof(All));
 
@@ -225,9 +80,7 @@ namespace FuryRent.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var car = await context.Cars
-                .Where(s => s.Id == id)
-                .FirstOrDefaultAsync();
+            var car = await cars.GetById(id);
 
             var model = new DeleteCarViewModel()
             {
@@ -243,17 +96,14 @@ namespace FuryRent.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(DeleteCarViewModel carModel)
         {
-            var car = await context.Cars
-                .Where(s => s.Id == carModel.Id)
-                .FirstOrDefaultAsync();
+            var car = await cars.GetById(carModel.Id);
 
             if (car == null)
             {
                 return BadRequest();
             }
 
-             context.Cars.Remove(car);
-            await context.SaveChangesAsync();
+            await cars.Delete(car.Id);
 
             return RedirectToAction(nameof(All));
         }
@@ -261,134 +111,37 @@ namespace FuryRent.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var car = await context.Cars.FindAsync(id);
 
-            if (car == null)
-            {
-                return BadRequest();
-            }
+            var car = await cars.Edit(id);
 
-            var editedCar = new EditCarFormModel()
-            {
-                Id = id,
-                ImageUrl = car.ImageUrl,
-                Make = car.Make,
-                Model = car.Model,
-                Color = car.Color,
-                Kilometers = car.Kilometers,
-                EngineTypeId = car.EngineTypeId,
-                Horsepower = car.Horsepower,
-                GearboxTypeId = car.GearboxTypeId,
-                YearOfProduction = car.YearOfProduction.ToString(FuryRent.Core.CarConstants.DateFormat),
-                PricePerDay = car.PricePerDay,
-                CategoryId = car.CategoryId,
-                
-            };
-
-            editedCar.Categories = await GetCategories();
-            editedCar.EngineTypes = await GetEngineTypes();
-            editedCar.GearboxTypes = await GetGearboxTypes();
-
-            return View(editedCar);
+            return View(car);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(EditCarFormModel formModel, int id)
         {
-            var car = await context.Cars.FindAsync(id);
+            var car = await cars.GetById(id);
 
             DateTime dateTime = DateTime.Now.Date;
-
-            if (!DateTime.TryParseExact(formModel.YearOfProduction,
-               CarConstants.DateFormat,
-               CultureInfo.InvariantCulture,
-               DateTimeStyles.None,
-               out dateTime))
-            {
-                ModelState.AddModelError(nameof(formModel.YearOfProduction), $"Invalid date! format must be {CarConstants.DateFormat}");
-            }
 
             if (car == null)
             {
                 return BadRequest();
             }
 
-            bool isVipOnly = false;
-
-            switch (formModel.IsVipOnly)
-            {
-                case "Yes":
-                    isVipOnly = true;
-                    break;
-
-                case "No":
-                    isVipOnly = false;
-                    break;
-
-                default:
-                    ModelState.AddModelError(nameof(formModel.IsVipOnly), "Invalid input, the input must be 'Yes' or 'No'");
-                    break;
-            }
-
             if (!ModelState.IsValid)
             {
-                formModel.Categories = await GetCategories();
-                formModel.EngineTypes = await GetEngineTypes();
-                formModel.GearboxTypes = await GetGearboxTypes();
+                formModel.Categories = await cars.GetCategories();
+                formModel.EngineTypes = await cars.GetEngineTypes();
+                formModel.GearboxTypes = await cars.GetGearboxTypes();
 
                 RedirectToAction(nameof(Edit));
             }
 
-            car.Id = formModel.Id;
-            car.ImageUrl = formModel.ImageUrl;
-            car.Make = formModel.Make;
-            car.Model = formModel.Model;
-            car.Color = formModel.Color;
-            car.Kilometers = formModel.Kilometers;
-            car.EngineTypeId = formModel.EngineTypeId;
-            car.GearboxTypeId = formModel.GearboxTypeId;
-            car.YearOfProduction = dateTime;
-            car.Horsepower = formModel.Horsepower;
-            car.PricePerDay = formModel.PricePerDay;
-            car.CategoryId = formModel.CategoryId;
-            car.IsVipOnly = isVipOnly;
-
-            await context.SaveChangesAsync();
+            await cars.Edit(formModel, car.Id);
 
             return RedirectToAction(nameof(All));
         }
 
-        private async Task<IEnumerable<CategoryViewModel>> GetCategories()
-        {
-            return await context.Categories
-                .AsNoTracking()
-                .Select(t => new CategoryViewModel
-                {
-                    Id = t.Id,
-                    Name = t.Name,
-                }).ToListAsync();
-        }
-
-        private async Task<IEnumerable<EngineTypeViewModel>> GetEngineTypes()
-        {
-            return await context.EngineTypes
-                .AsNoTracking()
-                .Select(t => new EngineTypeViewModel
-                {
-                    Id = t.Id,
-                    Name = t.Name,
-                }).ToListAsync();
-        }
-
-        private async Task<IEnumerable<GearboxTypeViewModel>> GetGearboxTypes()
-        {
-            return await context.GearboxTypes
-                .AsNoTracking()
-                .Select(t => new GearboxTypeViewModel
-                {
-                    Id = t.Id,
-                    Name = t.Name,
-                }).ToListAsync();
-        }
     }
 }

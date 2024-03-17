@@ -1,4 +1,6 @@
-﻿using FuryRent.Infrastructure.Data;
+﻿using FuryRent.Core.Contracts;
+using FuryRent.Core.Services;
+using FuryRent.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +11,8 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddScoped<ICarService, CarService>();
+
             return services;
         }
 

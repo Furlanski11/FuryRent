@@ -27,7 +27,7 @@ namespace FuryRent.Core.Models.Car
         public string Model { get; set; } = string.Empty;
 
         [Required(ErrorMessage = RequireErrorMessage)]
-        [StringLength(CarColorMaxLength, MinimumLength = CarColorMinLength, 
+        [StringLength(CarColorMaxLength, MinimumLength = CarColorMinLength,
             ErrorMessage = StringLengthErrorMessage)]
         public string Color { get; set; } = string.Empty;
 
@@ -47,21 +47,18 @@ namespace FuryRent.Core.Models.Car
         [DisplayFormat(DataFormatString = CarConstants.DateFormat)]
         public string YearOfProduction { get; set; } = string.Empty;
 
+
         [Required(ErrorMessage = RequireErrorMessage)]
         [Range(typeof(decimal),
-			PricePerDayMinimum,
-			PricePerDayMaximum,
+            PricePerDayMinimum,
+            PricePerDayMaximum,
             ConvertValueInInvariantCulture = true,
             ErrorMessage = "Price per day must be a positive number and less than {2}")]
         public decimal PricePerDay { get; set; }
 
         [Required(ErrorMessage = RequireErrorMessage)]
         public int CategoryId { get; set; }
-
-        [Required(ErrorMessage = RequireErrorMessage)]
-        [StringLength(IsVipOnlyMaxLength, MinimumLength = IsVipOnlyMinLength,
-            ErrorMessage = StringLengthErrorMessage)]
-        public string IsVipOnly { get; set; } = string.Empty;
+        public bool IsVipOnly { get; set; }
 
         public IEnumerable<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
 
