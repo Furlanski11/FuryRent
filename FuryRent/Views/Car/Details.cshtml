@@ -1,4 +1,6 @@
-﻿@model DetailsViewModel
+﻿@using FuryRent.Core
+@using System.Globalization
+@model DetailsViewModel
 
 @{
 	ViewBag.Title = "Car Details";
@@ -18,7 +20,7 @@
 			<p class="card-model"><span class="fw-bold">Horsepower: </span>@Model.Horsepower</p>
 			<p class="card-model"><span class="fw-bold">Gearbox: </span>@Model.GearboxType</p>
 			<p class="card-model"><span class="fw-bold">Kilometers: </span>@Model.Kilometers</p>
-			<p class="card-model"><span class="fw-bold">Year: </span>@Model.YearOfProduction</p>
+			<p class="card-model"><span class="fw-bold">Year: </span>@Model.YearOfProduction.ToString(CarConstants.DateFormat, CultureInfo.InvariantCulture)</p>
 			<p class="card-model"><span class="fw-bold">Category: </span>@Model.Category</p>
 			<p class="card-model"><span class="fw-bold">Price per day: </span>@Model.PricePerDay$ /day</p>
 			<a asp-area="" asp-controller="Car" asp-action="All" class="btn btn-danger w-25">Rent</a>

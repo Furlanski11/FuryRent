@@ -7,7 +7,7 @@ using static FuryRent.Infrastructure.Constants.DataConstants;
 namespace FuryRent.Core.Models.Car
 {
     public class EditCarFormModel
-	{
+    {
         public int Id { get; set; }
 
         [Required(ErrorMessage = RequireErrorMessage)]
@@ -31,38 +31,35 @@ namespace FuryRent.Core.Models.Car
         public string Color { get; set; } = string.Empty;
 
         [Required(ErrorMessage = RequireErrorMessage)]
-		public int Kilometers { get; set; }
-
-		[Required(ErrorMessage = RequireErrorMessage)]
-		public int EngineTypeId { get; set; }
-
-		[Required(ErrorMessage = RequireErrorMessage)]
-		public int Horsepower { get; set; }
-
-		[Required(ErrorMessage = RequireErrorMessage)]
-		public int GearboxTypeId { get; set; }
-
-		[Required(ErrorMessage = RequireErrorMessage)]
-		[DisplayFormat(DataFormatString = CarConstants.DateFormat)]
-		public string YearOfProduction { get; set; } = string.Empty;
-
-		[Required(ErrorMessage = RequireErrorMessage)]
-		[Column(TypeName = "money")]
-		[Precision(18, 2)]
-		public decimal PricePerDay { get; set; }
-
-		[Required(ErrorMessage = RequireErrorMessage)]
-		public int CategoryId { get; set; }
+        public int Kilometers { get; set; }
 
         [Required(ErrorMessage = RequireErrorMessage)]
-        [StringLength(IsVipOnlyMaxLength, MinimumLength = IsVipOnlyMinLength,
-            ErrorMessage = StringLengthErrorMessage)]
-        public string IsVipOnly { get; set; } = string.Empty;
+        public int EngineTypeId { get; set; }
+
+        [Required(ErrorMessage = RequireErrorMessage)]
+        public int Horsepower { get; set; }
+
+        [Required(ErrorMessage = RequireErrorMessage)]
+        public int GearboxTypeId { get; set; }
+
+        [Required(ErrorMessage = RequireErrorMessage)]
+        [DisplayFormat(DataFormatString = CarConstants.DateFormat)]
+        public DateTime YearOfProduction { get; set; }
+
+        [Required(ErrorMessage = RequireErrorMessage)]
+        [Column(TypeName = "money")]
+        [Precision(18, 2)]
+        public decimal PricePerDay { get; set; }
+
+        [Required(ErrorMessage = RequireErrorMessage)]
+        public int CategoryId { get; set; }
+
+        public bool IsVipOnly { get; set; }
 
         public IEnumerable<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
 
-		public IEnumerable<EngineTypeViewModel> EngineTypes { get; set; } = new List<EngineTypeViewModel>();
+        public IEnumerable<EngineTypeViewModel> EngineTypes { get; set; } = new List<EngineTypeViewModel>();
 
-		public IEnumerable<GearboxTypeViewModel> GearboxTypes { get; set; } = new List<GearboxTypeViewModel>();
-	}
+        public IEnumerable<GearboxTypeViewModel> GearboxTypes { get; set; } = new List<GearboxTypeViewModel>();
+    }
 }

@@ -8,7 +8,7 @@ namespace FuryRent.Infrastructure.Constants
         public const int CarMakeMinLength = 3;
         public const int CarMakeMaxLength = 15;
 
-        public const int CarModeleMinLength = 3;
+        public const int CarModeleMinLength = 1;
         public const int CarModelMaxLength = 50;
 
         public const int CarColorMinLength = 3;
@@ -19,5 +19,8 @@ namespace FuryRent.Infrastructure.Constants
 
         public const int EngineTypeNameMaxLength = 20;
 		public const int GearboxTypeNameMaxLength = 20;
+
+        public const string PricePerDayMinimum = "1";
+		public const string PricePerDayMaximum = "2000";
 	}
 }
