@@ -17,13 +17,19 @@ namespace FuryRent.Controllers
             cars = _cars;
         }
 
-
         [HttpGet]
-        public async Task<IActionResult> All(string? make, string? criteria)
+        public async Task<IActionResult> All([FromQuery] AllCarsQueryModel query)
         {
-            var model = await cars.All(make, criteria);
+            var queryResult = cars.All(
+                query.Make,
+                query.Sorting,
+                query.CurrentPage,
+                AllCarsQueryModel.CarsPerPage);
 
-            return View(model);
+            query.TotalCarsCount = queryResult.TotalCarsCount;
+            query.Cars = queryResult.Cars;
+
+            return View(query);
         }
 
         [HttpGet]
@@ -52,15 +58,6 @@ namespace FuryRent.Controllers
         {
             DateTime dateTime = DateTime.Now;
 
-            if (!DateTime.TryParseExact(carModel.YearOfProduction,
-                CarConstants.DateFormat,
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.None,
-                out dateTime))
-            {
-                ModelState.AddModelError(nameof(carModel.YearOfProduction), $"Invalid date! format must be {CarConstants.DateFormat}");
-            }
-
 
             if (!ModelState.IsValid)
             {
@@ -82,6 +79,11 @@ namespace FuryRent.Controllers
         {
             var car = await cars.GetById(id);
 
+            if(car == null)
+            {
+                throw new InvalidOperationException(CarConstants.NoSuchCarErrorMessage);
+            }
+
             var model = new DeleteCarViewModel()
             {
                 Id = car.Id,
@@ -100,7 +102,7 @@ namespace FuryRent.Controllers
 
             if (car == null)
             {
-                return BadRequest();
+                throw new InvalidOperationException(CarConstants.NoSuchCarErrorMessage);
             }
 
             await cars.Delete(car.Id);
@@ -126,7 +128,7 @@ namespace FuryRent.Controllers
 
             if (car == null)
             {
-                return BadRequest();
+                throw new InvalidOperationException(CarConstants.NoSuchCarErrorMessage);
             }
 
             if (!ModelState.IsValid)
@@ -142,6 +144,5 @@ namespace FuryRent.Controllers
 
             return RedirectToAction(nameof(All));
         }
-
     }
 }
