@@ -45,7 +45,7 @@ namespace FuryRent.Core.Models.Car
 
         [Required(ErrorMessage = RequireErrorMessage)]
         [DisplayFormat(DataFormatString = CarConstants.DateFormat)]
-        public DateTime YearOfProduction { get; set; } 
+        public string YearOfProduction { get; set; } = string.Empty;
 
 
         [Required(ErrorMessage = RequireErrorMessage)]

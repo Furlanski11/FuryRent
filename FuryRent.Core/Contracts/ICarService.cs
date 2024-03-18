@@ -1,17 +1,13 @@
 ﻿using FuryRent.Core.Models.Car;
 using FuryRent.Infrastructure.Data.Models;
-using FuryRent.Infrastructure.Enumerators.Car;
 
 namespace FuryRent.Core.Contracts
 {
     public interface ICarService
     {
-        public CarQueryServiceModel All(string? make,
-            CarSorting sorting = CarSorting.Make,
-            int currentPage = 1, int carsPerPage = 3);
-       
+        public Task<IEnumerable<AllCarsQueryModel>> All(string? make, string? criteria);
         public Task Delete(int id);
-       
+        public Task<IEnumerable<AllCarsQueryModel>> GetByMake(string make);
         public Task<DetailsViewModel> Details(int id);
 
         public Task<IEnumerable<CategoryViewModel>> GetCategories();

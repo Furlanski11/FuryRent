@@ -1,21 +1,18 @@
-﻿using FuryRent.Infrastructure.Enumerators.Car;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FuryRent.Core.Models.Car
 {
     public class AllCarsQueryModel
     {
-        public const int CarsPerPage = 3;
+        public int Id { get; set; }
 
-        [Display(Name = "Filter by Make")]
-        public string Make { get; init; } = string.Empty;
+        public string ImageUrl { get; set; } = null!;
 
-        public CarSorting Sorting { get; init; }
+        public string Make { get; set; } = string.Empty;
 
-        public int CurrentPage { get; init; } = 1;
+        public string Model { get; set; } = string.Empty;
 
-        public int TotalCarsCount { get; set; }
+        public string PricePerDay { get; set; } = string.Empty;
 
-        public IEnumerable<CarServiceModel> Cars { get; set; } = new List<CarServiceModel>();
     }
 }
