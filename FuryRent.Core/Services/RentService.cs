@@ -1,8 +1,9 @@
 ﻿using FuryRent.Core.Contracts;
 using FuryRent.Core.Models.Rent;
 using FuryRent.Infrastructure.Data;
-using FuryRent.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using static FuryRent.Core.CarConstants;
+using FuryRent.Infrastructure.Data.Models;
 
 namespace FuryRent.Core.Services
 {
@@ -19,6 +20,7 @@ namespace FuryRent.Core.Services
 		{
 			return await db.Rents
 				.Where(r => r.RenterId == userId)
+				.OrderByDescending(r => r.Car.Horsepower)
 				.Select(r => new RentViewModel()
 				{
 					Id = r.RentId,
@@ -30,11 +32,12 @@ namespace FuryRent.Core.Services
 					RentalEndDate = r.RentalEndDate,
 					PricePerDay = $"{r.Car.PricePerDay:f0}",
 					TotalCost = r.TotalCost.ToString()
-				}).ToListAsync();
+				})
+				.ToListAsync();
 
 		}
 
-		public async Task Add(AddRentViewModel rentModel,string userId, int carId)
+		public async Task Add(AddRentViewModel rentModel, string userId, int carId)
 		{
 			var carPrice = await db.Cars
 				.AsNoTracking()
@@ -60,14 +63,20 @@ namespace FuryRent.Core.Services
 				RentalEndDate = rentModel.RentalEndDate,
 			};
 
-			if(rent.RentalStartDate > rent.RentalEndDate)
+			if (rent.RentalStartDate > rent.RentalEndDate)
 			{
-				throw new InvalidOperationException("Start date cannot be after End date!");
+				throw new InvalidOperationException("Pick up date cannot be after Return date!");
 			}
 
-			if(rents.Any(r =>r.CarId == rent.CarId && rent.RentalStartDate.Date >= r.RentalStartDate.Date && r.RentalEndDate.Date <= rent.RentalEndDate.Date))
+			if(rent.RentalStartDate < DateTime.Now || rent.RentalEndDate < DateTime.Now)
 			{
-				throw new InvalidOperationException("The car is currently not available!");
+				throw new InvalidOperationException("Cannot rent a car in past date");
+			}
+
+			//Checks if the car has been returned
+			if (rents.Any(r => r.CarId == rent.CarId && rent.RentalStartDate.Date <= r.RentalEndDate.Date && rent.RentalStartDate >= r.RentalStartDate))
+			{
+				throw new InvalidOperationException(CarNotAvailableErrorMessage);
 			}
 
 			var difDates = rent.RentalEndDate - rentModel.RentalStartDate;

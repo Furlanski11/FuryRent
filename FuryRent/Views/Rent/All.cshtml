@@ -26,11 +26,12 @@
 			<div class="card-body">
 				<h5 class="card-title">@rent.Make @rent.Model</h5>
 				<p class="card-model"><span class="fw-bold">Price per day: </span>@rent.PricePerDay$</p>
-				<p class="card-model"><span class="fw-bold">Start Date: </span>@rent.RentalStartDate</p>
-				<p class="card-model"><span class="fw-bold">End Date: </span>@rent.RentalEndDate</p>
+				<p class="card-model"><span class="fw-bold">Start Date: </span>@rent.RentalStartDate.ToString(CarConstants.DateFormat, CultureInfo.InvariantCulture)</p>
+				<p class="card-model"><span class="fw-bold">End Date: </span>@rent.RentalEndDate.ToString(CarConstants.DateFormat, CultureInfo.InvariantCulture)</p>
 				<p class="card-model"><span class="fw-bold">Total: </span>@rent.TotalCost$</p>
 				<a asp-controller="Rent" asp-action="All" class="btn btn-danger">Pay</a>
 			</div>
 		</div>
 	}
 </div>
+
