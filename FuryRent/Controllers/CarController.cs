@@ -3,11 +3,10 @@ using FuryRent.Core.Contracts;
 using FuryRent.Core.Models.Car;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
 
 namespace FuryRent.Controllers
 {
-    [Authorize]
+	[Authorize]
     public class CarController : Controller
     {
         private readonly ICarService cars;

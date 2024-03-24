@@ -12,8 +12,10 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<ICarService, CarService>();
+			services.AddScoped<IVipService, VipService>();
+			services.AddScoped<IRentService, RentService>();
 
-            return services;
+			return services;
         }
 
         public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration config)

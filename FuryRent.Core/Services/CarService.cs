@@ -56,50 +56,6 @@ namespace FuryRent.Core.Services
 			};
 		}
 
-		//public async Task<IEnumerable<AllCarsQueryModel>> All(string? make, string? data)
-		//{
-		//	var query = db.Cars.AsQueryable();
-
-		//	if (!string.IsNullOrEmpty(make))
-		//	{
-		//		query = db.
-		//				Cars
-		//				.Where(c => c.Make == make);
-		//	}
-
-		//	if (!string.IsNullOrWhiteSpace(data))
-		//	{
-		//		if (data == "Price")
-		//		{
-		//			query = query.OrderBy(x => x.PricePerDay);
-		//		}
-		//		else if (data == "Year")
-		//		{
-		//			query = query.OrderBy(x => x.YearOfProduction);
-		//		}
-		//		else if (data == "HorsePower")
-		//		{
-		//			query = query.OrderByDescending(x => x.Horsepower);
-		//		}
-		//		else if (data == "Make")
-		//		{
-		//			query = query.OrderBy(x => x.Make);
-		//		}
-		//	}
-
-		//	return await query
-		//	   .AsNoTracking()
-		//	   .Select(c => new AllCarsQueryModel()
-		//	   {
-		//		   Id = c.Id,
-		//		   Make = c.Make,
-		//		   Model = c.Model,
-		//		   ImageUrl = c.ImageUrl,
-		//		   PricePerDay = $"{c.PricePerDay:f2}",
-		//	   }).ToListAsync();
-
-		//}
-
 		public async Task Add(AddCarViewModel carModel)
 		{
 			var car = new Car()

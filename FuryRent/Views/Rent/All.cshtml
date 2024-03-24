@@ -1,0 +1,37 @@
+﻿@model IEnumerable<RentViewModel>
+
+<head>
+	@{
+		ViewData["Title"] = "All Rents";
+	}
+	<link href="~/css/site.css" />
+</head>
+
+<h2 class="text-center">@ViewData["Title"]</h2>
+
+<hr />
+
+@if (!Model.Any())
+{
+	<div class="alert alert-danger mt-2 text-center fw-bold" role="alert">
+		No rents yet!
+	</div>
+}
+
+<div class="card-deck">
+	@foreach (var rent in Model)
+	{
+		<div class="card border-1 border-danger mb-3" style="width: 45rem;">
+			<img src="@rent.ImageUrl" class="card-img-top" alt="@rent.Make @rent.Model">
+			<div class="card-body">
+				<h5 class="card-title">@rent.Make @rent.Model</h5>
+				<p class="card-model"><span class="fw-bold">Price per day: </span>@rent.PricePerDay$</p>
+				<p class="card-model"><span class="fw-bold">Start Date: </span>@rent.RentalStartDate.ToString(CarConstants.DateFormat, CultureInfo.InvariantCulture)</p>
+				<p class="card-model"><span class="fw-bold">End Date: </span>@rent.RentalEndDate.ToString(CarConstants.DateFormat, CultureInfo.InvariantCulture)</p>
+				<p class="card-model"><span class="fw-bold">Total: </span>@rent.TotalCost$</p>
+				<a asp-controller="Rent" asp-action="All" class="btn btn-danger">Pay</a>
+			</div>
+		</div>
+	}
+</div>
+
