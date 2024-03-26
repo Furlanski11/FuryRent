@@ -1,4 +1,5 @@
 ﻿using FuryRent.Core.Contracts;
+using FuryRent.Core.Exceptions;
 using FuryRent.Core.Models.Car;
 using FuryRent.Infrastructure.Data;
 using FuryRent.Infrastructure.Data.Models;
@@ -44,7 +45,8 @@ namespace FuryRent.Core.Services
 					ImageUrl = c.ImageUrl,
 					Make = c.Make,
 					Model = c.Model,
-					PricePerDay = $"{c.PricePerDay:f2}"
+					PricePerDay = $"{c.PricePerDay:f2}",
+					IsVipOnly = c.IsVipOnly
 				}).ToList();
 				
 			var totalCars = carsQuery.Count();
@@ -90,7 +92,7 @@ namespace FuryRent.Core.Services
 
 			if (car == null)
 			{
-				throw new InvalidOperationException(CarConstants.NoSuchCarErrorMessage);
+				throw new NoSuchCarException(CarConstants.NoSuchCarErrorMessage);
 			}
 
 			var model = new DetailsViewModel()
@@ -119,7 +121,7 @@ namespace FuryRent.Core.Services
 
 			if (car == null)
 			{
-				throw new InvalidOperationException(CarConstants.NoSuchCarErrorMessage);
+				throw new NoSuchCarException(CarConstants.NoSuchCarErrorMessage);
 			}
 
 			var editedCar = new EditCarFormModel()
@@ -150,7 +152,7 @@ namespace FuryRent.Core.Services
 
 			if (car == null)
 			{
-				throw new InvalidOperationException(CarConstants.NoSuchCarErrorMessage);
+				throw new NoSuchCarException(CarConstants.NoSuchCarErrorMessage);
 			}
 
 			car.Id = formModel.Id;
@@ -167,6 +169,21 @@ namespace FuryRent.Core.Services
 			car.CategoryId = formModel.CategoryId;
 			car.IsVipOnly = formModel.IsVipOnly;
 
+			await db.SaveChangesAsync();
+		}
+
+		public async Task Delete(int id)
+		{
+			var car = await db.Cars
+				.Where(s => s.Id == id)
+				.FirstOrDefaultAsync();
+
+			if (car == null)
+			{
+				throw new NoSuchCarException(CarConstants.NoSuchCarErrorMessage);
+			}
+
+			db.Cars.Remove(car);
 			await db.SaveChangesAsync();
 		}
 
@@ -209,21 +226,6 @@ namespace FuryRent.Core.Services
 					Id = t.Id,
 					Name = t.Name,
 				}).ToListAsync();
-		}
-
-		public async Task Delete(int id)
-		{
-			var car = await db.Cars
-				.Where(s => s.Id == id)
-				.FirstOrDefaultAsync();
-
-			if (car == null)
-			{
-				throw new InvalidOperationException(CarConstants.NoSuchCarErrorMessage);
-			}
-
-			db.Cars.Remove(car);
-			await db.SaveChangesAsync();
 		}
 	}
 }
