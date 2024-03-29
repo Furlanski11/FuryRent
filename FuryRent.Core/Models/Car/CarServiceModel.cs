@@ -11,5 +11,7 @@
 		public string Model { get; set; } = string.Empty;
 
 		public string PricePerDay { get; set; } = string.Empty;
+
+		public bool IsVipOnly { get; set; }
 	}
 }
