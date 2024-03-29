@@ -2,7 +2,7 @@
 
 <head>
 	@{
-		ViewData["Title"] = "All Rents";
+		ViewData["Title"] = "My Rents";
 	}
 	<link href="~/css/site.css" />
 </head>
@@ -29,7 +29,16 @@
 				<p class="card-model"><span class="fw-bold">Start Date: </span>@rent.RentalStartDate.ToString(CarConstants.DateFormat, CultureInfo.InvariantCulture)</p>
 				<p class="card-model"><span class="fw-bold">End Date: </span>@rent.RentalEndDate.ToString(CarConstants.DateFormat, CultureInfo.InvariantCulture)</p>
 				<p class="card-model"><span class="fw-bold">Total: </span>@rent.TotalCost$</p>
-				<a asp-controller="Rent" asp-action="All" class="btn btn-danger">Pay</a>
+				@{
+					if(rent.IsPaid)
+					{
+						<a class="btn btn-danger disabled">Paid</a>
+					}
+					else
+					{
+						<a asp-controller="Pay" asp-action="PayRent" asp-route-id="@rent.Id" class="btn btn-danger">Pay</a>
+					}
+				}
 			</div>
 		</div>
 	}

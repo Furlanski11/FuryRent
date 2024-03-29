@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FuryRent.Controllers
 {
-	[Authorize]
+	[Authorize()]
     public class CarController : Controller
     {
         private readonly ICarService cars;
@@ -80,7 +80,7 @@ namespace FuryRent.Controllers
 
             if(car == null)
             {
-                throw new InvalidOperationException(CarConstants.NoSuchCarErrorMessage);
+                return BadRequest(CarConstants.NoSuchCarErrorMessage);
             }
 
             var model = new DeleteCarViewModel()
@@ -101,8 +101,8 @@ namespace FuryRent.Controllers
 
             if (car == null)
             {
-                throw new InvalidOperationException(CarConstants.NoSuchCarErrorMessage);
-            }
+				return BadRequest(CarConstants.NoSuchCarErrorMessage);
+			}
 
             await cars.Delete(car.Id);
 
@@ -127,8 +127,8 @@ namespace FuryRent.Controllers
 
             if (car == null)
             {
-                throw new InvalidOperationException(CarConstants.NoSuchCarErrorMessage);
-            }
+				return BadRequest(CarConstants.NoSuchCarErrorMessage);
+			}
 
             if (!ModelState.IsValid)
             {
@@ -141,7 +141,7 @@ namespace FuryRent.Controllers
 
             await cars.Edit(formModel, car.Id);
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(Details), new {id});
         }
     }
 }
