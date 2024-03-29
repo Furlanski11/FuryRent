@@ -27,8 +27,8 @@
 				</select>
 			</div>
 		</div>
-		<div class="col-md-3">
-			<div class="form-group mt-4 p-2">
+		<div class="form-group col-md-3">
+			<div class="form-group mt-3 p-2">
 				<input type="submit" value="Search" class="btn btn-danger" />
 			</div>
 		</div>
@@ -55,7 +55,7 @@
 				<h5 class="card-title">@car.Make @car.Model</h5>
 				<p class="card-model">@car.PricePerDay$ /day</p>
 				<a asp-controller="Car" asp-action="Details" asp-route-id="@car.Id" class="btn btn-danger">Details</a>
-				<a asp-controller="Car" asp-action="All" asp-route-id="@car.Id" class="btn btn-danger">Rent</a>
+				<a asp-controller="Rent" asp-action="Add" asp-route-id="@car.Id" class="btn btn-danger">Rent</a>
 			</div>
 		</div>
 	}

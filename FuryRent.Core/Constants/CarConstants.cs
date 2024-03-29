@@ -10,7 +10,9 @@
 
         public const string NoSuchCarErrorMessage = "There is no such car!";
 
-        public const int IsVipOnlyMinLength = 2;
+		public const string CarNotAvailableErrorMessage = "The car is currently not available!";
+
+		public const int IsVipOnlyMinLength = 2;
         public const int IsVipOnlyMaxLength = 3;
         public const string IsVipOnlyErrorMessage = "The field {0} must be 'Yes' or 'No'";
     }

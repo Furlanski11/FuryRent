@@ -8,10 +8,13 @@
     @if (this.User?.Identity?.IsAuthenticated ?? false)
     {
         <li class="nav-item">
-            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Rent</a>
+            <a class="nav-link text-light" asp-area="" asp-controller="Rent" asp-action="All">Rents</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-light" asp-area="" asp-controller="Car" asp-action="All">Cars</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-area="" asp-controller="Vip" asp-action="Become">Become VIP</a>
         </li>
     }
 </ul>
