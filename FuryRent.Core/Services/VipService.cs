@@ -14,14 +14,30 @@ namespace FuryRent.Core.Services
 		{
 			db = _db;
 		}
-
+		
 		public async Task Become(VipUserServiceModel model)
 		{
 			var userRents = await db.Rents
+				.AsNoTracking()
 				.Where(u => u.RenterId == model.UserId)
 				.CountAsync();
 
-			if(userRents >= 3 && model.UserId != null)
+			var vipUsers = await db.VipUsers
+				.AsNoTracking()
+				.Select(vu => vu.UserId)
+				.ToListAsync();
+
+			if(model.UserId == null)
+			{
+				throw new Exception("UserId cannot be null!");
+			}
+
+			if(vipUsers.Contains(model.UserId))
+			{
+				throw new Exception("You are a VIP member already!");
+			}
+
+			if(userRents >= 3)
 			{
 				VipUser vipUser = new VipUser()
 				{
