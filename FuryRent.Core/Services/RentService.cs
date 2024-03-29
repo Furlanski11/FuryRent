@@ -18,7 +18,12 @@ namespace FuryRent.Core.Services
 
 		public async Task<IEnumerable<RentViewModel>> All(string userId)
 		{
-			return await db.Rents
+			var payments = await db.Payments
+                .AsNoTracking()
+                .Select(p => p.RentId)
+                .ToListAsync();
+
+            var rents = await db.Rents
 				.Where(r => r.RenterId == userId)
 				.OrderByDescending(r => r.Car.Horsepower)
 				.Select(r => new RentViewModel()
@@ -35,7 +40,20 @@ namespace FuryRent.Core.Services
 				})
 				.ToListAsync();
 
-		}
+            foreach (var rent in rents)
+            {
+                if (payments.Contains(rent.Id))
+                {
+                    rent.IsPaid = true;
+                }
+				else
+				{
+					rent.IsPaid = false;
+				}
+            }
+
+			return rents;
+        }
 
 		public async Task Add(AddRentViewModel rentModel, string userId, int carId)
 		{
