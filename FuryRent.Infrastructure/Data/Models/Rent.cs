@@ -13,7 +13,7 @@ namespace FuryRent.Infrastructure.Data.Models
         public string RenterId { get; set; } = string.Empty;
 
         [ForeignKey(nameof(RenterId))]
-        public IdentityUser? Renter { get; set; }
+        public ApplicationUser? Renter { get; set; }
 
         [Required]
         public int CarId { get; set; }

@@ -1,7 +1,7 @@
 ﻿using FuryRent.Core.Contracts;
 using FuryRent.Core.Services;
 using FuryRent.Infrastructure.Data;
-using Microsoft.AspNetCore.Identity;
+using FuryRent.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -32,7 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDefaultIdentity<IdentityUser>(options =>
+            services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireDigit = true;

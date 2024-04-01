@@ -99,7 +99,7 @@ namespace FuryRent.Core.Services
 
 			var difDates = rent.RentalEndDate - rentModel.RentalStartDate;
 
-			rent.TotalCost = difDates.Days * (double)carPrice;
+			rent.TotalCost = (difDates.Days + 1) * (double)carPrice;
 
 			await db.Rents.AddAsync(rent);
 			await db.SaveChangesAsync();

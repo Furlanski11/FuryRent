@@ -37,7 +37,7 @@ namespace FuryRent.Controllers
 
 			await rents.Add(rentModel,userId, Id);
 
-			return RedirectToAction("All", "Car");
+			return RedirectToAction("All", "Rent");
 		}
 
 		private string GetUserId()

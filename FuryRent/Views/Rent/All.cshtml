@@ -26,8 +26,8 @@
 			<div class="card-body">
 				<h5 class="card-title">@rent.Make @rent.Model</h5>
 				<p class="card-model"><span class="fw-bold">Price per day: </span>@rent.PricePerDay$</p>
-				<p class="card-model"><span class="fw-bold">Start Date: </span>@rent.RentalStartDate.ToString(CarConstants.DateFormat, CultureInfo.InvariantCulture)</p>
-				<p class="card-model"><span class="fw-bold">End Date: </span>@rent.RentalEndDate.ToString(CarConstants.DateFormat, CultureInfo.InvariantCulture)</p>
+				<p class="card-model"><span class="fw-bold">Pick up Date: </span>@rent.RentalStartDate.ToString(CarConstants.DateFormat, CultureInfo.InvariantCulture)</p>
+				<p class="card-model"><span class="fw-bold">Return Date: </span>@rent.RentalEndDate.ToString(CarConstants.DateFormat, CultureInfo.InvariantCulture)</p>
 				<p class="card-model"><span class="fw-bold">Total: </span>@rent.TotalCost$</p>
 				@{
 					if(rent.IsPaid)

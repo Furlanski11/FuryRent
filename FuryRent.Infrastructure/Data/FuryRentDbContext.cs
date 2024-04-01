@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FuryRent.Infrastructure.Data
 {
-    public class FuryRentDbContext : IdentityDbContext
+    public class FuryRentDbContext : IdentityDbContext<ApplicationUser>
     {
         public FuryRentDbContext(DbContextOptions<FuryRentDbContext> options)
             : base(options)

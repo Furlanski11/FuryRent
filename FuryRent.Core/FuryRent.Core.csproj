@@ -10,8 +10,4 @@
     <ProjectReference Include="..\FuryRent.Infrastructure\FuryRent.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Home\" />
-  </ItemGroup>
-
 </Project>
