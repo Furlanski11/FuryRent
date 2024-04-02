@@ -2,6 +2,7 @@
 using FuryRent.Core.Services;
 using FuryRent.Infrastructure.Data;
 using FuryRent.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -40,6 +41,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.Password.RequiredLength = 7;
                 options.Password.RequireNonAlphanumeric = false;
             })
+                .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<FuryRentDbContext>();
 
             return services;
