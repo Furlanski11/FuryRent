@@ -23,9 +23,12 @@
 			<p class="card-model"><span class="fw-bold">Year: </span>@Model.YearOfProduction.ToString(CarConstants.DateFormat, CultureInfo.InvariantCulture)</p>
 			<p class="card-model"><span class="fw-bold">Category: </span>@Model.Category</p>
 			<p class="card-model"><span class="fw-bold">Price per day: </span>@Model.PricePerDay$ /day</p>
-			<a asp-area="" asp-controller="Car" asp-action="All" class="btn btn-danger w-25">Rent</a>
-			<a asp-controller="Car" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning w-25">Edit</a>
-			<a asp-controller="Car" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-dark w-25">Delete</a>
+			<a asp-controller="Rent" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-danger w-25">Rent</a>
+			@if (User.IsInRole("Admin"))
+			{
+				<a asp-controller="Car" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning w-25">Edit</a>
+				<a asp-controller="Car" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-dark w-25">Delete</a>
+			}
 		</div>
 	</div>
 

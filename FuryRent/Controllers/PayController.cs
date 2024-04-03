@@ -1,9 +1,11 @@
 ﻿using FuryRent.Core.Contracts;
 using FuryRent.Core.Models.Pay;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FuryRent.Controllers
 {
+	[Authorize]
 	public class PayController : Controller
 	{
 		private readonly IPayService payments;

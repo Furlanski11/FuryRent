@@ -1,10 +1,12 @@
 ﻿using FuryRent.Core.Contracts;
 using FuryRent.Core.Models.Vip;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace FuryRent.Controllers
 {
+	[Authorize]
 	public class VipController : Controller
 	{
 		private readonly IVipService vipUsers;

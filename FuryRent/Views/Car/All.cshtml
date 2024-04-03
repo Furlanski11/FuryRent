@@ -35,9 +35,12 @@
 	</div>
 </form>
 
-<div>
-	<a class="btn btn-outline-success" asp-area="" asp-controller="Car" asp-action="Add">Add a car</a>
-</div>
+@if (User.IsInRole("Admin"))
+{
+	<div>
+		<a class="btn btn-outline-success" asp-area="" asp-controller="Car" asp-action="Add">Add a car</a>
+	</div>
+}
 
 @if (!Model.Cars.Any())
 {

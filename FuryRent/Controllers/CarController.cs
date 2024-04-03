@@ -40,6 +40,7 @@ namespace FuryRent.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Add()
         {
             var carModel = new AddCarViewModel
@@ -53,6 +54,7 @@ namespace FuryRent.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Add(AddCarViewModel carModel)
         {
             DateTime dateTime = DateTime.Now;
@@ -74,6 +76,7 @@ namespace FuryRent.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var car = await cars.GetById(id);
@@ -95,6 +98,7 @@ namespace FuryRent.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(DeleteCarViewModel carModel)
         {
             var car = await cars.GetById(carModel.Id);
@@ -110,6 +114,7 @@ namespace FuryRent.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
 
@@ -119,6 +124,7 @@ namespace FuryRent.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(EditCarFormModel formModel, int id)
         {
             var car = await cars.GetById(id);
