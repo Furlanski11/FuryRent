@@ -30,7 +30,7 @@ namespace FuryRent.Controllers
 
 			if(model.UserId == null)
 			{
-				return BadRequest(ModelState);
+				return BadRequest();
 			}
 
 			await vipUsers.Become(model);

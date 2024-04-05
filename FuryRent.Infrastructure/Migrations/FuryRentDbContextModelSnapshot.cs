@@ -199,7 +199,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasIndex("GearboxTypeId");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
 
                     b.HasData(
                         new
@@ -337,7 +337,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasData(
                         new
@@ -382,7 +382,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EngineTypes");
+                    b.ToTable("EngineTypes", (string)null);
 
                     b.HasData(
                         new
@@ -422,7 +422,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GearboxTypes");
+                    b.ToTable("GearboxTypes", (string)null);
 
                     b.HasData(
                         new
@@ -463,7 +463,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasIndex("RentId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.PaymentTypes", b =>
@@ -480,7 +480,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentTypes");
+                    b.ToTable("PaymentTypes", (string)null);
 
                     b.HasData(
                         new
@@ -525,7 +525,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasIndex("RenterId");
 
-                    b.ToTable("Rents");
+                    b.ToTable("Rents", (string)null);
                 });
 
             modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.VipUser", b =>
@@ -544,7 +544,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("VipUsers");
+                    b.ToTable("VipUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
