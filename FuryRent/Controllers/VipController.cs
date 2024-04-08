@@ -1,4 +1,5 @@
 ﻿using FuryRent.Core.Contracts;
+using FuryRent.Core.Exceptions;
 using FuryRent.Core.Models.Vip;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ namespace FuryRent.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "Admin, User")]
 		public IActionResult Become()
 		{
 			
@@ -24,6 +26,7 @@ namespace FuryRent.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "Admin, User")]
 		public async Task<IActionResult> Become(VipUserServiceModel model)
 		{
 			model.UserId = GetUserId();
@@ -33,9 +36,20 @@ namespace FuryRent.Controllers
 				return BadRequest();
 			}
 
-			await vipUsers.Become(model);
+			try
+			{
+				await vipUsers.Become(model);
+			}
+			catch (AlreadyVipException)
+			{
+                TempData["message"] = "You are a VIP member already";
 
-			return RedirectToAction("Index", "Home");
+                return RedirectToAction("AlreadyVip", "Vip");
+			}
+
+            TempData["message"] = "Congratulations you are a VIP user now!";
+
+            return RedirectToAction("Index", "Home");
 		}
 
 		private string GetUserId()

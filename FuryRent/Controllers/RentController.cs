@@ -16,6 +16,7 @@ namespace FuryRent.Controllers
 			rents = _rents;
 		}
 
+		[Authorize(Roles = "Admin, User")]
 		public async Task<IActionResult> All()
 		{
 			var userId = GetUserId();
@@ -26,6 +27,7 @@ namespace FuryRent.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "Admin, User")]
 		public IActionResult Add()
 		{
 		
@@ -33,13 +35,16 @@ namespace FuryRent.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "Admin, User")]
 		public async Task<IActionResult> Add(AddRentViewModel rentModel, int Id)
 		{
 			var userId = GetUserId();
 
 			await rents.Add(rentModel,userId, Id);
 
-			return RedirectToAction("All", "Rent");
+            TempData["message"] = "You have successfully rented a car";
+
+            return RedirectToAction("All", "Rent");
 		}
 
 		private string GetUserId()

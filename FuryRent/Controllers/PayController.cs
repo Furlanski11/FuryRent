@@ -16,6 +16,7 @@ namespace FuryRent.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "Admin, User")]
 		public async Task<IActionResult> PayRent(int id)
 		{
 			var rent = await payments.GetRentById(id);
@@ -31,6 +32,7 @@ namespace FuryRent.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "Admin, User")]
 		public async Task<IActionResult> PayRent(PayServiceViewModel model, int id)
 		{
 			var rent = await payments.GetRentById(id);
@@ -46,6 +48,8 @@ namespace FuryRent.Controllers
             }
 
 			await payments.Pay(model);
+
+            TempData["message"] = "The payment was successfull";
 
             return RedirectToAction("All", "Rent");
 		}

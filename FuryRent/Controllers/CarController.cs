@@ -1,5 +1,6 @@
 ﻿using FuryRent.Core;
 using FuryRent.Core.Contracts;
+using FuryRent.Core.Exceptions;
 using FuryRent.Core.Models.Car;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,8 @@ namespace FuryRent.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> All([FromQuery] AllCarsQueryModel query)
+		[Authorize(Roles = "Admin, User")]
+		public async Task<IActionResult> All([FromQuery] AllCarsQueryModel query)
         {
             var queryResult = cars.All(
                 query.Make,
@@ -32,9 +34,19 @@ namespace FuryRent.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Details(int Id)
         {
-            var model = await cars.Details(Id);
+            DetailsViewModel model = new();
+
+            try
+            {
+				 model = await cars.Details(Id);
+			}
+            catch (NoSuchCarException)
+            {
+                return NotFound();
+            }
 
             return View(model);
         }
@@ -70,6 +82,8 @@ namespace FuryRent.Controllers
             }
 
             await cars.Add(carModel);
+
+            TempData["message"] = "You have successfully added a car";
 
             return RedirectToAction(nameof(All));
 
@@ -110,6 +124,8 @@ namespace FuryRent.Controllers
 
             await cars.Delete(car.Id);
 
+            TempData["message"] = "You have successfully deleted a car";
+
             return RedirectToAction(nameof(All));
         }
 
@@ -146,6 +162,8 @@ namespace FuryRent.Controllers
             }
 
             await cars.Edit(formModel, car.Id);
+
+            TempData["message"] = "You have successfully edited a car";
 
             return RedirectToAction(nameof(Details), new {id});
         }
