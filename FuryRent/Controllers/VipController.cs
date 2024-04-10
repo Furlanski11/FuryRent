@@ -1,10 +1,14 @@
-﻿using FuryRent.Core.Contracts;
+﻿using System.Security.Claims;
+using FuryRent.Core.Contracts;
+using FuryRent.Core.Exceptions;
 using FuryRent.Core.Models.Vip;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace FuryRent.Controllers
 {
+	[Authorize]
 	public class VipController : Controller
 	{
 		private readonly IVipService vipUsers;
@@ -15,6 +19,7 @@ namespace FuryRent.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "Admin, User")]
 		public IActionResult Become()
 		{
 			
@@ -22,18 +27,36 @@ namespace FuryRent.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "Admin, User")]
 		public async Task<IActionResult> Become(VipUserServiceModel model)
 		{
 			model.UserId = GetUserId();
 
 			if(model.UserId == null)
 			{
-				return BadRequest(ModelState);
+				return BadRequest();
 			}
 
-			await vipUsers.Become(model);
+			try
+			{
+				await vipUsers.Become(model);
+			}
+			catch (AlreadyVipException)
+			{
+                TempData["message"] = "You are a VIP user already";
 
-			return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
+			}
+			catch(InvalidOperationException)
+			{
+                TempData["message"] = "You must have 3 rents to become a VIP user";
+
+                return RedirectToAction("All", "Rent");
+            }
+
+            TempData["message"] = "Congratulations you are a VIP user now!";
+
+            return RedirectToAction("Index", "Home");
 		}
 
 		private string GetUserId()

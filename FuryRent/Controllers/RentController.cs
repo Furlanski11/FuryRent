@@ -1,10 +1,13 @@
 ﻿using FuryRent.Core.Contracts;
+using FuryRent.Core.Exceptions;
 using FuryRent.Core.Models.Rent;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace FuryRent.Controllers
 {
+	[Authorize]
 	public class RentController : Controller
 	{
 		private readonly IRentService rents;
@@ -14,6 +17,7 @@ namespace FuryRent.Controllers
 			rents = _rents;
 		}
 
+		[Authorize(Roles = "Admin, User")]
 		public async Task<IActionResult> All()
 		{
 			var userId = GetUserId();
@@ -24,6 +28,7 @@ namespace FuryRent.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "Admin, User")]
 		public IActionResult Add()
 		{
 		
@@ -31,13 +36,36 @@ namespace FuryRent.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "Admin, User")]
 		public async Task<IActionResult> Add(AddRentViewModel rentModel, int Id)
 		{
 			var userId = GetUserId();
 
-			await rents.Add(rentModel,userId, Id);
+			try
+			{
+                await rents.Add(rentModel, userId, Id);
+            }
+			catch (NoSuchCarException)
+			{
 
-			return RedirectToAction("All", "Car");
+				return NotFound();
+			}
+			catch(InvalidOperationException exc)
+			{
+                TempData["message"] = exc.Message;
+
+                return RedirectToAction("Details", "Car", new {Id});
+            }
+			catch(Exception exc)
+			{
+				TempData["message"] = exc.Message;
+
+				return RedirectToAction("Become", "Vip");
+			}
+
+            TempData["message"] = "You have successfully rented a car";
+
+            return RedirectToAction("All", "Rent");
 		}
 
 		private string GetUserId()

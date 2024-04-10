@@ -4,6 +4,7 @@ using FuryRent.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FuryRent.Infrastructure.Migrations
 {
     [DbContext(typeof(FuryRentDbContext))]
-    partial class FuryRentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240401173904_AddedUserColumns")]
+    partial class AddedUserColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,7 +201,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasIndex("GearboxTypeId");
 
-                    b.ToTable("Cars", (string)null);
+                    b.ToTable("Cars");
 
                     b.HasData(
                         new
@@ -337,7 +339,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -382,7 +384,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EngineTypes", (string)null);
+                    b.ToTable("EngineTypes");
 
                     b.HasData(
                         new
@@ -422,7 +424,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GearboxTypes", (string)null);
+                    b.ToTable("GearboxTypes");
 
                     b.HasData(
                         new
@@ -463,7 +465,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasIndex("RentId");
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.PaymentTypes", b =>
@@ -480,7 +482,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentTypes", (string)null);
+                    b.ToTable("PaymentTypes");
 
                     b.HasData(
                         new
@@ -525,7 +527,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasIndex("RenterId");
 
-                    b.ToTable("Rents", (string)null);
+                    b.ToTable("Rents");
                 });
 
             modelBuilder.Entity("FuryRent.Infrastructure.Data.Models.VipUser", b =>
@@ -544,7 +546,7 @@ namespace FuryRent.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("VipUsers", (string)null);
+                    b.ToTable("VipUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

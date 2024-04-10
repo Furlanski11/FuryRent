@@ -1,9 +1,11 @@
 ﻿using FuryRent.Core.Contracts;
 using FuryRent.Core.Models.Pay;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FuryRent.Controllers
 {
+	[Authorize]
 	public class PayController : Controller
 	{
 		private readonly IPayService payments;
@@ -14,9 +16,15 @@ namespace FuryRent.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "Admin, User")]
 		public async Task<IActionResult> PayRent(int id)
 		{
 			var rent = await payments.GetRentById(id);
+
+			if(rent == null)
+			{
+				return NotFound();
+			}
 
 			var model = new PayServiceViewModel()
 			{
@@ -29,6 +37,7 @@ namespace FuryRent.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "Admin, User")]
 		public async Task<IActionResult> PayRent(PayServiceViewModel model, int id)
 		{
 			var rent = await payments.GetRentById(id);
@@ -43,7 +52,17 @@ namespace FuryRent.Controllers
                 return RedirectToAction(nameof(PayRent));
             }
 
-			await payments.Pay(model);
+			try
+			{
+                await payments.Pay(model);
+            }
+			catch (Exception)
+			{
+
+				return NotFound();
+			}
+
+            TempData["message"] = "The payment was successfull!";
 
             return RedirectToAction("All", "Rent");
 		}

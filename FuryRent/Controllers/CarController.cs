@@ -1,6 +1,8 @@
 ﻿using FuryRent.Core;
 using FuryRent.Core.Contracts;
+using FuryRent.Core.Exceptions;
 using FuryRent.Core.Models.Car;
+using FuryRent.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +19,8 @@ namespace FuryRent.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> All([FromQuery] AllCarsQueryModel query)
+		[Authorize(Roles = "Admin, User")]
+		public async Task<IActionResult> All([FromQuery] AllCarsQueryModel query)
         {
             var queryResult = cars.All(
                 query.Make,
@@ -32,14 +35,25 @@ namespace FuryRent.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Details(int Id)
         {
-            var model = await cars.Details(Id);
+            DetailsViewModel model = new();
+
+            try
+            {
+				 model = await cars.Details(Id);
+			}
+            catch (NoSuchCarException)
+            {
+                return NotFound();
+            }
 
             return View(model);
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Add()
         {
             var carModel = new AddCarViewModel
@@ -53,6 +67,7 @@ namespace FuryRent.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Add(AddCarViewModel carModel)
         {
             DateTime dateTime = DateTime.Now;
@@ -69,18 +84,26 @@ namespace FuryRent.Controllers
 
             await cars.Add(carModel);
 
+            TempData["message"] = "You have successfully added a car";
+
             return RedirectToAction(nameof(All));
 
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var car = await cars.GetById(id);
+            Car? car = new();
 
-            if(car == null)
+            try
             {
-                return BadRequest(CarConstants.NoSuchCarErrorMessage);
+                car = await cars.GetById(id);
+            }
+            catch (NoSuchCarException)
+            {
+
+                return NotFound();
             }
 
             var model = new DeleteCarViewModel()
@@ -95,6 +118,7 @@ namespace FuryRent.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(DeleteCarViewModel carModel)
         {
             var car = await cars.GetById(carModel.Id);
@@ -106,19 +130,31 @@ namespace FuryRent.Controllers
 
             await cars.Delete(car.Id);
 
+            TempData["message"] = "You have successfully deleted a car";
+
             return RedirectToAction(nameof(All));
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
+            EditCarFormModel? car = new();
+            try
+            {
+                 car = await cars.Edit(id);
+            }
+            catch (NoSuchCarException)
+            {
 
-            var car = await cars.Edit(id);
-
+                return NotFound();
+            }
+            
             return View(car);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(EditCarFormModel formModel, int id)
         {
             var car = await cars.GetById(id);
@@ -127,7 +163,7 @@ namespace FuryRent.Controllers
 
             if (car == null)
             {
-				return BadRequest(CarConstants.NoSuchCarErrorMessage);
+				return NotFound();
 			}
 
             if (!ModelState.IsValid)
@@ -139,7 +175,17 @@ namespace FuryRent.Controllers
                 RedirectToAction(nameof(Edit));
             }
 
-            await cars.Edit(formModel, car.Id);
+            try
+            {
+                await cars.Edit(formModel, car.Id);
+            }
+            catch (NoSuchCarException)
+            {
+
+                return NotFound();
+            }
+
+            TempData["message"] = "You have successfully edited a car";
 
             return RedirectToAction(nameof(Details), new {id});
         }

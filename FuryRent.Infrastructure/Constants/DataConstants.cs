@@ -22,5 +22,11 @@ namespace FuryRent.Infrastructure.Constants
 
         public const string PricePerDayMinimum = "1";
 		public const string PricePerDayMaximum = "2000";
-	}
+
+        public const int UserFirstNameMinLength = 2;
+        public const int UserFirstNameMaxLength = 10;
+
+        public const int UserLastNameMinLength = 2;
+        public const int UserLastNameMaxLength = 10;
+    }
 }

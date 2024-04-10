@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
 });
 
+builder.WebHost.UseStaticWebAssets();
 builder.Services.AddApplicationServices();
 
 var app = builder.Build();
@@ -22,7 +23,7 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error/500");
-    app.UseStatusCodePagesWithReExecute("/Home/Error","?statusCode={0}");
+    app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
     app.UseHsts();
 }
 
@@ -36,5 +37,8 @@ app.UseAuthorization();
 
 app.MapDefaultControllerRoute();
 app.MapRazorPages();
+
+await app.CreateAdminRoleAsync();
+await app.CreateUserRoleAsync();
 
 await app.RunAsync();
