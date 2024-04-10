@@ -1,8 +1,9 @@
 ﻿using FuryRent.Core.Contracts;
+using FuryRent.Core.Exceptions;
 using FuryRent.Core.Models.Vip;
 using FuryRent.Infrastructure.Data;
-using FuryRent.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using FuryRent.Infrastructure.Data.Models;
 
 namespace FuryRent.Core.Services
 {
@@ -34,7 +35,7 @@ namespace FuryRent.Core.Services
 
 			if(vipUsers.Contains(model.UserId))
 			{
-				throw new Exception("You are a VIP member already!");
+				throw new AlreadyVipException("You are a VIP member already!");
 			}
 
 			if(userRents >= 3)
@@ -49,7 +50,7 @@ namespace FuryRent.Core.Services
 			}
 			else
 			{
-				throw new Exception("You should have 3 rents to become a VIP member!");
+				throw new InvalidOperationException("You must have 3 rents to become a VIP member!");
 			}
 		}
 	}

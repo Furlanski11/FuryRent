@@ -21,6 +21,11 @@ namespace FuryRent.Controllers
 		{
 			var rent = await payments.GetRentById(id);
 
+			if(rent == null)
+			{
+				return NotFound();
+			}
+
 			var model = new PayServiceViewModel()
 			{
 				PaymentAmount = rent.PaymentAmount,
@@ -47,9 +52,17 @@ namespace FuryRent.Controllers
                 return RedirectToAction(nameof(PayRent));
             }
 
-			await payments.Pay(model);
+			try
+			{
+                await payments.Pay(model);
+            }
+			catch (Exception)
+			{
 
-            TempData["message"] = "The payment was successfull";
+				return NotFound();
+			}
+
+            TempData["message"] = "The payment was successfull!";
 
             return RedirectToAction("All", "Rent");
 		}

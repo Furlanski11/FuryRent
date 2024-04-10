@@ -2,9 +2,9 @@
 using FuryRent.Core.Exceptions;
 using FuryRent.Core.Models.Car;
 using FuryRent.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using FuryRent.Infrastructure.Data.Models;
 using FuryRent.Infrastructure.Enumerators.Car;
-using Microsoft.EntityFrameworkCore;
 
 namespace FuryRent.Core.Services
 {
@@ -190,6 +190,11 @@ namespace FuryRent.Core.Services
 		public async Task<Car?> GetById(int? id)
 		{
 			var car = await db.Cars.FirstOrDefaultAsync(x => x.Id == id);
+
+			if(car == null)
+			{
+				throw new NoSuchCarException(CarConstants.NoSuchCarErrorMessage);
+			}
 
 			return car;
 		}

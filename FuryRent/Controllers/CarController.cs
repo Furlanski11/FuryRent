@@ -2,6 +2,7 @@
 using FuryRent.Core.Contracts;
 using FuryRent.Core.Exceptions;
 using FuryRent.Core.Models.Car;
+using FuryRent.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -93,11 +94,16 @@ namespace FuryRent.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var car = await cars.GetById(id);
+            Car? car = new();
 
-            if(car == null)
+            try
             {
-                return BadRequest(CarConstants.NoSuchCarErrorMessage);
+                car = await cars.GetById(id);
+            }
+            catch (NoSuchCarException)
+            {
+
+                return NotFound();
             }
 
             var model = new DeleteCarViewModel()
@@ -133,9 +139,17 @@ namespace FuryRent.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
+            EditCarFormModel? car = new();
+            try
+            {
+                 car = await cars.Edit(id);
+            }
+            catch (NoSuchCarException)
+            {
 
-            var car = await cars.Edit(id);
-
+                return NotFound();
+            }
+            
             return View(car);
         }
 
@@ -149,7 +163,7 @@ namespace FuryRent.Controllers
 
             if (car == null)
             {
-				return BadRequest(CarConstants.NoSuchCarErrorMessage);
+				return NotFound();
 			}
 
             if (!ModelState.IsValid)
@@ -161,7 +175,15 @@ namespace FuryRent.Controllers
                 RedirectToAction(nameof(Edit));
             }
 
-            await cars.Edit(formModel, car.Id);
+            try
+            {
+                await cars.Edit(formModel, car.Id);
+            }
+            catch (NoSuchCarException)
+            {
+
+                return NotFound();
+            }
 
             TempData["message"] = "You have successfully edited a car";
 

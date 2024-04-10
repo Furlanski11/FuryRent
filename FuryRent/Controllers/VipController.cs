@@ -1,9 +1,10 @@
-﻿using FuryRent.Core.Contracts;
+﻿using System.Security.Claims;
+using FuryRent.Core.Contracts;
 using FuryRent.Core.Exceptions;
 using FuryRent.Core.Models.Vip;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace FuryRent.Controllers
 {
@@ -42,10 +43,16 @@ namespace FuryRent.Controllers
 			}
 			catch (AlreadyVipException)
 			{
-                TempData["message"] = "You are a VIP member already";
+                TempData["message"] = "You are a VIP user already";
 
-                return RedirectToAction("AlreadyVip", "Vip");
+                return RedirectToAction("Index", "Home");
 			}
+			catch(InvalidOperationException)
+			{
+                TempData["message"] = "You must have 3 rents to become a VIP user";
+
+                return RedirectToAction("All", "Rent");
+            }
 
             TempData["message"] = "Congratulations you are a VIP user now!";
 

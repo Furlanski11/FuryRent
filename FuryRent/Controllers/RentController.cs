@@ -1,4 +1,5 @@
 ﻿using FuryRent.Core.Contracts;
+using FuryRent.Core.Exceptions;
 using FuryRent.Core.Models.Rent;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +41,27 @@ namespace FuryRent.Controllers
 		{
 			var userId = GetUserId();
 
-			await rents.Add(rentModel,userId, Id);
+			try
+			{
+                await rents.Add(rentModel, userId, Id);
+            }
+			catch (NoSuchCarException)
+			{
+
+				return NotFound();
+			}
+			catch(InvalidOperationException exc)
+			{
+                TempData["message"] = exc.Message;
+
+                return RedirectToAction("Details", "Car", new {Id});
+            }
+			catch(Exception exc)
+			{
+				TempData["message"] = exc.Message;
+
+				return RedirectToAction("Become", "Vip");
+			}
 
             TempData["message"] = "You have successfully rented a car";
 

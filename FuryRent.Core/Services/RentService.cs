@@ -4,6 +4,7 @@ using FuryRent.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using static FuryRent.Core.CarConstants;
 using FuryRent.Infrastructure.Data.Models;
+using FuryRent.Core.Exceptions;
 
 namespace FuryRent.Core.Services
 {
@@ -57,6 +58,19 @@ namespace FuryRent.Core.Services
 
 		public async Task Add(AddRentViewModel rentModel, string userId, int carId)
 		{
+			var car = await db.Cars
+				.FirstOrDefaultAsync(c => c.Id == carId);
+
+			if (car == null)
+			{
+				throw new NoSuchCarException(NoSuchCarErrorMessage);
+			}
+
+			if(IsUserVip(userId) == false)
+			{
+				throw new Exception("You must be a VIP user to rent this car");
+			}
+
 			var carPrice = await db.Cars
 				.AsNoTracking()
 				.Where(c => c.Id == carId)
@@ -103,6 +117,22 @@ namespace FuryRent.Core.Services
 
 			await db.Rents.AddAsync(rent);
 			await db.SaveChangesAsync();
+		}
+
+		//Checks if the user is VIP
+		private bool IsUserVip(string userId)
+		{
+			var vipUser = db.VipUsers
+				.FirstOrDefault(x => x.UserId == userId);
+
+			if(vipUser != null)
+			{
+				return true;
+			}
+			else 
+			{ 
+				return false; 
+			}
 		}
 	}
 }

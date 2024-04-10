@@ -1,8 +1,8 @@
 ﻿using FuryRent.Core.Contracts;
 using FuryRent.Core.Models.Pay;
 using FuryRent.Infrastructure.Data;
-using FuryRent.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using FuryRent.Infrastructure.Data.Models;
 
 namespace FuryRent.Core.Services
 {
