@@ -7,20 +7,34 @@ namespace FuryRent.Infrastructure.Data
 {
     public class FuryRentDbContext : IdentityDbContext<ApplicationUser>
     {
-        public FuryRentDbContext(DbContextOptions<FuryRentDbContext> options)
+        private bool _seedDb;
+
+        public FuryRentDbContext(DbContextOptions<FuryRentDbContext> options, bool seed = true)
             : base(options)
         {
+            if (Database.IsRelational())
+            {
+                Database.Migrate();
+            }
+            else
+            {
+                Database.EnsureCreated();
+            }
+
+            _seedDb = seed;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration(new UserConfiguration());
-            builder.ApplyConfiguration(new CarConfiguration());
-            builder.ApplyConfiguration(new CategoryConfiguration());
-            builder.ApplyConfiguration(new PaymentTypesConfiguration());
-            builder.ApplyConfiguration(new EngineTypeConfiguration());
-            builder.ApplyConfiguration(new GearboxTypeConfiguration());
-
+            if (_seedDb)
+            {
+                builder.ApplyConfiguration(new UserConfiguration());
+                builder.ApplyConfiguration(new CarConfiguration());
+                builder.ApplyConfiguration(new CategoryConfiguration());
+                builder.ApplyConfiguration(new PaymentTypesConfiguration());
+                builder.ApplyConfiguration(new EngineTypeConfiguration());
+                builder.ApplyConfiguration(new GearboxTypeConfiguration());
+            }
             base.OnModelCreating(builder);
         }
 
