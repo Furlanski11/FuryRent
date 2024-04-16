@@ -7,5 +7,7 @@ namespace FuryRent.Core.Contracts
 		public Task Add(AddRentViewModel rentModel,string userId, int carId);
 
 		public Task<IEnumerable<RentViewModel>> All(string userId);
+
+		public bool IsUserVip(string userId);
 	}
 }

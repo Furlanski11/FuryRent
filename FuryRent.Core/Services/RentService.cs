@@ -66,16 +66,10 @@ namespace FuryRent.Core.Services
 				throw new NoSuchCarException(NoSuchCarErrorMessage);
 			}
 
-			if(IsUserVip(userId) == false)
+			if(IsUserVip(userId) == false && car.IsVipOnly == true)
 			{
 				throw new Exception("You must be a VIP user to rent this car");
 			}
-
-			var carPrice = await db.Cars
-				.AsNoTracking()
-				.Where(c => c.Id == carId)
-				.Select(c => c.PricePerDay)
-				.FirstOrDefaultAsync();
 
 			var rents = await db.Rents
 				.AsNoTracking()
@@ -113,14 +107,14 @@ namespace FuryRent.Core.Services
 
 			var difDates = rent.RentalEndDate - rentModel.RentalStartDate;
 
-			rent.TotalCost = (difDates.Days + 1) * (double)carPrice;
+			rent.TotalCost = (difDates.Days + 1) * (double)car.PricePerDay;
 
 			await db.Rents.AddAsync(rent);
 			await db.SaveChangesAsync();
 		}
 
 		//Checks if the user is VIP
-		private bool IsUserVip(string userId)
+		public bool IsUserVip(string userId)
 		{
 			var vipUser = db.VipUsers
 				.FirstOrDefault(x => x.UserId == userId);
