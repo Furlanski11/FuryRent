@@ -100,6 +100,7 @@ namespace FuryRent.Areas.Identity.Pages.Account
             [Required(ErrorMessage = RequiredFieldMessage)]
             [DataType(DataType.PhoneNumber)]
             [Display(Name = "Phone number")]
+            [RegularExpression("^0(87|88|89)\\d{7}$", ErrorMessage = "The phone number must be in format: 08xxxxxxxx")]
             public string PhoneNumber { get; set; }
         }
 
