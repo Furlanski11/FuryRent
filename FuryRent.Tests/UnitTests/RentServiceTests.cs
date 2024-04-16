@@ -22,7 +22,7 @@ namespace FuryRent.Tests.UnitTests
 			var result = await _rentService.All(userId);
 
 			Assert.IsNotNull(result);
-			Assert.That(result.Count(), Is.EqualTo(2)); // Two rents should be returned
+			Assert.That(result.Count(), Is.EqualTo(3)); // Three rents should be returned
 
 			var rent1 = result.FirstOrDefault(r => r.Id == 1);
 			Assert.IsNotNull(rent1);
@@ -39,7 +39,15 @@ namespace FuryRent.Tests.UnitTests
 			Assert.That(rent2.Model, Is.EqualTo("RS5"));
 			Assert.That(rent2.ImageUrl, Is.EqualTo("RS5.jpg"));
 			Assert.IsFalse(rent2.IsPaid); // Rent2 has no payment associated
-		}
+
+            var rent3 = result.FirstOrDefault(r => r.Id == 3);
+            Assert.IsNotNull(rent3);
+            Assert.That(rent3.CarId, Is.EqualTo(2));
+            Assert.That(rent3.Make, Is.EqualTo("BMW"));
+            Assert.That(rent3.Model, Is.EqualTo("M5"));
+            Assert.That(rent3.ImageUrl, Is.EqualTo("https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/2018_BMW_M5_Automatic_4.4.jpg/280px-2018_BMW_M5_Automatic_4.4.jpg"));
+            Assert.IsFalse(rent3.IsPaid); // Rent3 has no payment associated
+        }
 
 		[Test]
 		public void IsUserVip_ReturnsTrue_WhenUserIsVip()
@@ -66,14 +74,14 @@ namespace FuryRent.Tests.UnitTests
 		{
 			var allRents = _data.Rents.Count();
 
-			Assert.That(allRents, Is.EqualTo(2));
+			Assert.That(allRents, Is.EqualTo(3));
 
 			var startDate = new DateTime(2024, 5, 25);
 			var endDate = new DateTime(2024, 5, 27);
 
 			var rentModel = new AddRentViewModel
 			{
-				RentId = 3,
+				RentId = 4,
 				RentalStartDate = startDate,
 				RentalEndDate = endDate
 			};
@@ -88,7 +96,7 @@ namespace FuryRent.Tests.UnitTests
 
 			allRents = _data.Rents.Count();
 
-			Assert.That(allRents, Is.EqualTo(3));
+			Assert.That(allRents, Is.EqualTo(4));
 
 		}
 

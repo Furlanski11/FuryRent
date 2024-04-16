@@ -263,10 +263,10 @@ namespace FuryRent.Tests.UnitTests
 			var result = _carService.All(make: "Audi", sorting: CarSorting.Price, currentPage: 1, carsPerPage: 2);
 
 			Assert.IsNotNull(result);
-			Assert.AreEqual(2, result.Cars.Count());
-			Assert.AreEqual(2, result.TotalCarsCount);
-			Assert.AreEqual(3, result.Cars.First().Id); // First car should have lowest price
-			Assert.AreEqual(1, result.Cars.Last().Id); // Last car should have higher price
+			Assert.That(result.Cars.Count(), Is.EqualTo(2));
+			Assert.That(result.TotalCarsCount, Is.EqualTo(2));
+			Assert.That(result.Cars.First().Id, Is.EqualTo(3)); // First car should have lowest price
+			Assert.That(result.Cars.Last().Id, Is.EqualTo(1)); // Last car should have higher price
 		}
 
 		[OneTimeTearDown]

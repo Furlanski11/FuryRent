@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FuryRent.Infrastructure.Data;
+﻿using FuryRent.Infrastructure.Data;
 using FuryRent.Infrastructure.Data.Models;
 using FuryRent.Tests.Mocks;
 
@@ -24,11 +23,19 @@ namespace FuryRent.Tests.UnitTests
 
 		public ApplicationUser vipRenter { get; private set; } = null!;
 
+        public ApplicationUser bonusRenter { get; private set; } = null!;
+
+        public VipUser vipUser { get; private set; } = null!;
+
 		public Car vipCar { get; private set; } = null!;
 
 		public Car nonVipCar { get; private set; } = null!;
 
 		public Car bonusCar { get; private set; } = null!;
+
+		public Rent renterUserRent { get; private set; } = null!;
+
+		public Payment payment { get; private set; } = null!;
 
 		private void SeedDatabase()
 		{
@@ -48,9 +55,18 @@ namespace FuryRent.Tests.UnitTests
 				FirstName = "Vip",
 				LastName = "Renter"
 			};
-			_data.Users.Add(Renter);
+			_data.Users.Add(vipRenter);
 
-			vipCar = new Car()
+            bonusRenter = new ApplicationUser()
+            {
+                Id = "BonusRenterId",
+                Email = "bonusRenter@mail.com",
+                FirstName = "Bonus",
+                LastName = "Renter"
+            };
+            _data.Users.Add(bonusRenter);
+
+            vipCar = new Car()
 			{
 				Id = 1,
 				Make = "Audi",
@@ -101,6 +117,49 @@ namespace FuryRent.Tests.UnitTests
 			};
 			_data.Cars.Add(bonusCar);
 
+			renterUserRent = new Rent()
+			{
+				RentId = 1,
+				CarId = 1,
+				RenterId = "RenterUserId",
+				RentalStartDate = new DateTime(2024, 5, 5),
+				RentalEndDate = new DateTime(2024, 5, 7),
+				TotalCost = 500
+			};
+			_data.Rents.Add(renterUserRent);
+
+			renterUserRent = new Rent()
+			{
+				RentId = 2,
+				CarId = 3,
+				RenterId = "RenterUserId",
+				RentalStartDate = new DateTime(2024, 6, 12),
+				RentalEndDate = new DateTime(2024, 6, 15),
+				TotalCost = 600
+			};
+			_data.Rents.Add(renterUserRent);
+
+            renterUserRent = new Rent()
+            {
+                RentId = 3,
+                CarId = 2,
+                RenterId = "RenterUserId",
+                RentalStartDate = new DateTime(2024, 7, 25),
+                RentalEndDate = new DateTime(2024, 7, 27),
+                TotalCost = 500
+            };
+            _data.Rents.Add(renterUserRent);
+
+            payment = new Payment()
+			{
+				Id = 1,
+				RentId = 1,
+				PaymentTypeId = 1,
+				PaymentAmount = 500,
+				PaymentDate = new DateTime(2024, 5, 10)
+			};
+			_data.Payments.Add(payment);
+
 			VipUser vipUser = new VipUser()
 			{
 				UserId = vipRenter.Id
@@ -148,7 +207,21 @@ namespace FuryRent.Tests.UnitTests
 				Name = "automatic"
 			};
 			_data.GearboxTypes.Add(automaticGearboxType);
-			_data.SaveChanges();
+
+			PaymentTypes paymentTypeCash = new()
+			{
+				Id = 1,
+				TypeName = "Cash"
+			};
+			_data.PaymentTypes.Add(paymentTypeCash);
+
+            PaymentTypes paymentTypeCard = new()
+            {
+                Id = 2,
+                TypeName = "Card"
+            };
+            _data.PaymentTypes.Add(paymentTypeCard);
+            _data.SaveChanges();
 		}
     }
 }

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FuryRent.Core\FuryRent.Core.csproj" />
     <ProjectReference Include="..\FuryRent.Infrastructure\FuryRent.Infrastructure.csproj" />
+    <ProjectReference Include="..\FuryRent\FuryRent.csproj" />
   </ItemGroup>
 
 </Project>
