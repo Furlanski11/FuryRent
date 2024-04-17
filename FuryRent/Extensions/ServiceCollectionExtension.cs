@@ -10,6 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtension
     {
+        //Adds services to the collection
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<ICarService, CarService>();
@@ -20,6 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
 			return services;
         }
 
+        //Adds FuryRentDbContext
         public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration config)
         {
             var connectionString = config.GetConnectionString("DefaultConnection");
@@ -31,6 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
+        //Adds extended IdentityUser
         public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
         {
             services.AddDefaultIdentity<ApplicationUser>(options =>

@@ -15,6 +15,7 @@ namespace FuryRent.Core.Services
             db = _db;
         }
 
+        //Adds a payment to the database
         public async Task Pay(PayServiceViewModel model)
         {
             var rent = await db.Rents
@@ -39,6 +40,7 @@ namespace FuryRent.Core.Services
             await db.SaveChangesAsync();
         }
 
+        //Returns all Payment types
         public async Task<IEnumerable<PaymentTypeViewModel>> GetPaymentTypes()
         {
             return await db.PaymentTypes
@@ -50,6 +52,7 @@ namespace FuryRent.Core.Services
                 }).ToListAsync();
         }
 
+        //Returns a Rent by given Id
         public async Task<PayServiceViewModel> GetRentById(int id)
         {
             return await db.Rents

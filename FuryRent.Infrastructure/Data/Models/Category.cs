@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace FuryRent.Infrastructure.Data.Models
 {
     public class Category
     {
         [Key]
+        [Comment("Category identifier")]
         public int Id { get; set; }
 
         [Required]

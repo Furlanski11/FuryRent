@@ -16,6 +16,7 @@ namespace FuryRent.Core.Services
 			db = _db;
 		}
 		
+		//Adds the User to the Vip members in the database if the User covers the given criteria
 		public async Task Become(VipUserServiceModel model)
 		{
 			var userRents = await db.Rents
@@ -33,6 +34,7 @@ namespace FuryRent.Core.Services
 				throw new Exception("UserId cannot be null!");
 			}
 
+			//Checks if the user is a Vip member already
 			if(vipUsers.Contains(model.UserId))
 			{
 				throw new AlreadyVipException("You are a VIP member already!");
@@ -50,6 +52,7 @@ namespace FuryRent.Core.Services
 			}
 			else
 			{
+				//Throws an exception if the user has less that 3 rents
 				throw new InvalidOperationException("You must have 3 rents to become a VIP member!");
 			}
 		}

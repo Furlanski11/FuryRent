@@ -8,6 +8,7 @@ namespace FuryRent.Infrastructure.Data.Models
     public class Car
     {
         [Key]
+        [Comment("Car identifier")]
         public int Id { get; set; }
 
         [Required]
@@ -30,6 +31,7 @@ namespace FuryRent.Infrastructure.Data.Models
         public int Kilometers { get; set; }
 
         [Required]
+        [Comment("EngineType identifier")]
         public int EngineTypeId { get; set; }
 
         [ForeignKey(nameof(EngineTypeId))]
@@ -39,6 +41,7 @@ namespace FuryRent.Infrastructure.Data.Models
         public int Horsepower { get; set; }
 
         [Required]
+        [Comment("GearboxType identifier")]
         public int GearboxTypeId { get; set; }
 
         [ForeignKey(nameof(GearboxTypeId))]
@@ -53,6 +56,7 @@ namespace FuryRent.Infrastructure.Data.Models
         public decimal PricePerDay { get; set; }
 
         [Required]
+        [Comment("Category identifier")]
         public int CategoryId { get; set; }
 
         [ForeignKey(nameof(CategoryId))]

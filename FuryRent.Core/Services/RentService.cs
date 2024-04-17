@@ -17,6 +17,7 @@ namespace FuryRent.Core.Services
 			db = _db;
 		}
 
+		//Returns all rents made by user with given userId
 		public async Task<IEnumerable<RentViewModel>> All(string userId)
 		{
 			var payments = await db.Payments
@@ -56,6 +57,7 @@ namespace FuryRent.Core.Services
 			return rents;
         }
 
+		//Adds rent by user to the database
 		public async Task Add(AddRentViewModel rentModel, string userId, int carId)
 		{
 			var car = await db.Cars
@@ -89,11 +91,13 @@ namespace FuryRent.Core.Services
 				RentalEndDate = rentModel.RentalEndDate,
 			};
 
+			//Ckecks if RentalStartDate is after RentalEndDate
 			if (rent.RentalStartDate > rent.RentalEndDate)
 			{
 				throw new InvalidOperationException("Pick up date cannot be after Return date!");
 			}
 
+			//Checks if the User is trying to rent a car in past date
 			if(rent.RentalStartDate < DateTime.Now || rent.RentalEndDate < DateTime.Now)
 			{
 				throw new InvalidOperationException("Cannot rent a car in past date");
@@ -113,7 +117,7 @@ namespace FuryRent.Core.Services
 			await db.SaveChangesAsync();
 		}
 
-		//Checks if the user is VIP
+		//Checks if the user is a VIP member
 		public bool IsUserVip(string userId)
 		{
 			var vipUser = db.VipUsers
