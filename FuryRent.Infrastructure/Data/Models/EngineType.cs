@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using static FuryRent.Infrastructure.Constants.DataConstants;
 
 namespace FuryRent.Infrastructure.Data.Models
@@ -6,6 +7,7 @@ namespace FuryRent.Infrastructure.Data.Models
 	public class EngineType
 	{
 		[Key]
+		[Comment("EngineType identifier")]
         public int Id { get; set; }
 
 		[Required]

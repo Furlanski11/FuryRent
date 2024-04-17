@@ -58,6 +58,7 @@ namespace FuryRent.Core.Services
 			};
 		}
 
+		//Adding a car
 		public async Task Add(AddCarViewModel carModel)
 		{
 			var car = new Car()
@@ -81,6 +82,7 @@ namespace FuryRent.Core.Services
 			await db.SaveChangesAsync();
 		}
 
+		//Details about a car by given Id
 		public async Task<DetailsViewModel> Details(int Id)
 		{
 			var car = await db.Cars
@@ -115,6 +117,7 @@ namespace FuryRent.Core.Services
 			return model;
 		}
 
+		//Editing a car by a given Id
 		public async Task<EditCarFormModel> Edit(int id)
 		{
 			var car = await GetById(id);
@@ -172,6 +175,7 @@ namespace FuryRent.Core.Services
 			await db.SaveChangesAsync();
 		}
 
+		//Deleting a car by a given Id
 		public async Task Delete(int id)
 		{
 			var car = await db.Cars
@@ -187,6 +191,7 @@ namespace FuryRent.Core.Services
 			await db.SaveChangesAsync();
 		}
 
+		//Returns a car by a given Id
 		public async Task<Car?> GetById(int? id)
 		{
 			var car = await db.Cars.FirstOrDefaultAsync(x => x.Id == id);
@@ -199,6 +204,7 @@ namespace FuryRent.Core.Services
 			return car;
 		}
 
+		//Returns all categories
 		public async Task<IEnumerable<CategoryViewModel>> GetCategories()
 		{
 			return await db.Categories
@@ -211,6 +217,7 @@ namespace FuryRent.Core.Services
 
 		}
 
+		//Returns all Engine types
 		public async Task<IEnumerable<EngineTypeViewModel>> GetEngineTypes()
 		{
 			return await db.EngineTypes
@@ -222,6 +229,7 @@ namespace FuryRent.Core.Services
 			   }).ToListAsync();
 		}
 
+		//Returns all Gearbox types
 		public async Task<IEnumerable<GearboxTypeViewModel>> GetGearboxTypes()
 		{
 			return await db.GearboxTypes
