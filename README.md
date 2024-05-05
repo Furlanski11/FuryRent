@@ -1,4 +1,5 @@
-FuryRent - Your Ultimate Car Rental Solution
+FuryRent - Your Ultimate Car Rental Solution.
+
 Welcome to FuryRent, your go-to platform for hassle-free car rentals. Developed as a project for the SoftUni ASP NET Advanced course, FuryRent promises an excellent rental experience, whether you're planning a weekend getaway or need a reliable vehicle for your daily commute.
 
 Features
