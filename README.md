@@ -15,4 +15,6 @@ Sign Up/Login: If you're a new user, sign up for an account on FuryRent. Existin
 Browse Available Cars: Once logged in, browse through the list of available cars on FuryRent. Use filters to narrow down your search based on your preferences.
 Make a Reservation: Found the perfect car? Proceed to make a reservation by selecting your desired dates and times.
 Complete Payment: Confirm your reservation and complete the payment securely through our platform.
-I value your feedback and I am constantly striving to improve the FuryRent experience. If you have any suggestions, questions, or encounter any issues while using our platform, please don't hesitate to me.
+
+I value your feedback and I am constantly striving to improve the FuryRent experience. 
+If you have any suggestions, questions, or encounter any issues while using our platform, please don't hesitate to me.
