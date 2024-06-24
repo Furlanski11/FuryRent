@@ -27,17 +27,20 @@ namespace FuryRent.Core.Models.Car
         public string Model { get; set; } = string.Empty;
 
         [Required(ErrorMessage = RequireErrorMessage)]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Color must consist only of words")]
         [StringLength(CarColorMaxLength, MinimumLength = CarColorMinLength,
             ErrorMessage = StringLengthErrorMessage)]
         public string Color { get; set; } = string.Empty;
 
         [Required(ErrorMessage = RequireErrorMessage)]
+        [Range(1, 1000000)]
         public int Kilometers { get; set; }
 
         [Required(ErrorMessage = RequireErrorMessage)]
         public int EngineTypeId { get; set; }
 
         [Required(ErrorMessage = RequireErrorMessage)]
+        [Range( 70, 1500)]
         public int Horsepower { get; set; }
 
         [Required(ErrorMessage = RequireErrorMessage)]
