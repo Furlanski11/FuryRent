@@ -59,7 +59,7 @@ namespace FuryRent.Controllers
 			catch (Exception)
 			{
 
-				return NotFound();
+				return BadRequest();
 			}
 
             TempData["message"] = "The payment was successfull!";
